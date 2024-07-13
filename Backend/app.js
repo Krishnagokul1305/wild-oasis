@@ -1,7 +1,7 @@
 const express=require("express");
 
 const app=express();
-const morgan=require("morgan")
+
 const AppError=require("./utils/AppError")
 
 
@@ -11,7 +11,7 @@ const cabinRoute=require("./routes/cabinRoute")
 const bookingsRoute=require("./routes/BookingsRoute")
 const guestRoute=require("./routes/guestRoute")
 
-app.use(morgan("dev"))
+
 app.use(express.json())
 
 // router middleware

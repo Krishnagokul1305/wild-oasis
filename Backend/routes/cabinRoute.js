@@ -1,13 +1,9 @@
 const express=require("express")
 
 const cabinRoute=express.Router()
-
-cabinRoute.route("/").get(function(req,res,next){
-    res.status(200).json({
-        status:"successfully cabinroute worked"
-    })
-})
-
+const { getAllCabin,getCabinByName,postCabin,updateCabin,deleteCabin}=require("../controllers/cabinController")
+cabinRoute.route("/").get(getAllCabin).post(postCabin)
+cabinRoute.route("/:name").get(getCabinByName).patch(updateCabin).delete(deleteCabin)
 module.exports=cabinRoute;
 
 // const cabins = [
