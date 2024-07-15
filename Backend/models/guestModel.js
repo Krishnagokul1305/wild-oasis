@@ -1,32 +1,37 @@
-const mongoose=require("mongoose")
+const mongoose = require("mongoose");
+const validator = require("validator");
 
-const guestSchema=mongoose.Schema({
-    fullName:{
-        type:String,
-        required:[true,"guest must have name"],
-        trim:true
+const guestSchema = new mongoose.Schema({
+    fullName: {
+        type: String,
+        required: [true, "Guest must have a name"],
+        trim: true
     },
-    email:{
-        type:String,
-        unique:true,
-        required:[true,"guest must have an email id"]
+    email: {
+        type: String,
+        unique: true,
+        lowercase: true,
+        required: [true, "Guest must have an email ID"],
+        validate: [validator.isEmail, "Email is invalid"]
     },
-    nationality:{
-        type:String,
-        required:[true,"guest must have nationality"]
+    nationality: {
+        type: String,
+        required: [true, "Guest must have a nationality"],
+        trim: true
     },
-    nationalId:{
-        type:String,
-        required:[true,"guest must have national id"]
+    nationalId: {
+        type: String,
+        required: [true, "Guest must have a national ID"],
+        trim: true
     },
-    countryFlag:{
-        type:String,
-        required:[true,"guest must have a country flag id"]
+    countryFlag: {
+        type: String,
+        required: [true, "Guest must have a country flag ID"]
     }
-},{
-    timestamps:true,
-})
+}, {
+    timestamps: true // Automatically manage createdAt and updatedAt fields
+});
 
-const guestModel=mongoose.model("guests",guestSchema)
+const guestModel = mongoose.model("Guest", guestSchema);
 
-module.exports=guestModel
+module.exports = guestModel;

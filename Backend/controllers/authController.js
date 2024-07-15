@@ -6,7 +6,6 @@ function createJwtToken(id){
     })
 }
 
-
 const signin=(req,res,next)=>{}
 const login=(req,res,next)=>{}
 const restricto=(req,res,next)=>{}

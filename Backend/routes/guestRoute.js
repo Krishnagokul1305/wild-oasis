@@ -1,7 +1,7 @@
 const express=require("express")
 
 const guestRoute=express.Router()
-const {    getAllGuest,getGuestById,postGuest,updateGuest,deleteGuest}=require("../controllers/guestController")
+const { getAllGuest,getGuestById,postGuest,updateGuest,deleteGuest}=require("../controllers/guestController")
 guestRoute.route("/").get(getAllGuest).post(postGuest)
 guestRoute.route("/:id").get(getGuestById).patch(updateGuest).delete(deleteGuest)
 
