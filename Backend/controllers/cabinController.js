@@ -1,9 +1,13 @@
 const cabinModel=require("../models/cabinModel")
 const catchAsync=require("../utils/asyncErrorHandler")
 const AppError=require("../utils/AppError")
-
+const ApiFeatures=require("../utils/ApiFeatures")
 //   function to get all cabins user must be logged in to access these routes
 const getAllCabin=catchAsync(async(req,res,next)=>{
+    const query=req.query
+    console.log(query)
+ const features=new ApiFeatures(cabinModel.find(),query).filter()
+ console.log(await features.query)
 const cabins=await cabinModel.find();
 res.status(200).json({
     status:"success",
