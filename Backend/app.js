@@ -4,6 +4,7 @@ const app=express();
 
 const AppError=require("./utils/AppError")
 
+const morgan=require("morgan")
 
 // routes
 const userRoute=require("./routes/userRoute")
@@ -13,6 +14,10 @@ const guestRoute=require("./routes/guestRoute")
 
 
 app.use(express.json())
+
+if(process.env.NODE_ENV="development"){
+    app.use(morgan("dev"))
+}
 
 // router middleware
 app.use("/api/v1/user",userRoute)
