@@ -1,11 +1,11 @@
-const express=require("express")
+const express = require("express");
 
-const userRoute=express.Router()
+const userRoute = express.Router();
 
-userRoute.route("/").get(function(req,res,next){
-    res.status(200).json({
-        status:"successfully userroute worked"
-    })
-})
+userRoute.route("/").get(function (req, res, next) {
+  res.status(200).json({
+    status: "successfully userroute worked",
+  });
+});
 
-module.exports=userRoute;
+module.exports = userRoute;
