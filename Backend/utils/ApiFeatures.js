@@ -7,7 +7,7 @@ module.exports = class ApiFeatures {
   // Filter the query based on query string parameters, excluding pagination, sort, and fields parameters
   filter() {
     // the fields that should not enter into filtering process
-    const excluded = ["page", "limit", "field", "sort"];
+    const excluded = ["page", "limit", "fields", "sort"];
     const unFiltered = { ...this.queryObj };
 
     // excluded fields gets deleted

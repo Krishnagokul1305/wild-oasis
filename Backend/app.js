@@ -39,7 +39,7 @@ if ((process.env.NODE_ENV = "development")) {
 }
 
 // router middleware
-app.use("/api/v1/user", userRoute);
+app.use("/api/v1/users", userRoute);
 app.use("/api/v1/cabins", cabinRoute);
 app.use("/api/v1/bookings", bookingsRoute);
 app.use("/api/v1/guests", guestRoute);
