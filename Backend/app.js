@@ -21,11 +21,11 @@ const guestRoute = require("./routes/guestRoute");
 app.use(express.json());
 
 // middlewares for security
-app.use(sanitizer());
+app.use(sanitizer()); //middleware for nosql injection prevention
 
 app.use(xss());
 
-app.use(helmet());
+app.use(helmet()); //security header setter
 
 const limiter = rateLimiter({
   max: process.env.REQUEST_LIMIT || 100,
