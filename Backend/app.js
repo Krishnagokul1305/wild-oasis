@@ -10,11 +10,11 @@ const rateLimiter = require("express-rate-limit"); //limit rate of requests
 const sanitizer = require("express-mongo-sanitize"); //prevents noSQL injections
 
 // routes
-const userRoute = require("./routes/userRoute");
-const cabinRoute = require("./routes/cabinRoute");
-const bookingsRoute = require("./routes/BookingsRoute");
-const guestRoute = require("./routes/guestRoute");
-const settingsRoute = require("./routes/settingsRoute");
+// const userRoute = require("./routes/userRoute");
+const cabinRoute = require("./routes/cabinsRoute");
+// const bookingsRoute = require("./routes/BookingsRoute");
+// const guestRoute = require("./routes/guestRoute");
+// const settingsRoute = require("./routes/settingsRoute");
 
 // middleware to parse request body without this we cannot access request body
 app.use(express.json());
@@ -31,10 +31,17 @@ if ((process.env.NODE_ENV = "development")) {
 }
 
 // router middleware
-app.use("/api/v1/users", userRoute);
+// app.use("/api/v1/users", userRoute);
 app.use("/api/v1/cabins", cabinRoute);
-app.use("/api/v1/bookings", bookingsRoute);
-app.use("/api/v1/guests", guestRoute);
-app.use("/api/v1/settings", settingsRoute);
+// app.use("/api/v1/bookings", bookingsRoute);
+// app.use("/api/v1/guests", guestRoute);
+// app.use("/api/v1/settings", settingsRoute);
+
+app.use("*", (req, res, next) => {
+  res.status(404).send({
+    status: "fail",
+    message: "page not found for the request url",
+  });
+});
 
 module.exports = app;
