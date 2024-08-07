@@ -14,7 +14,7 @@ const sanitizer = require("express-mongo-sanitize"); //prevents noSQL injections
 const cabinRoute = require("./routes/cabinsRoute");
 // const bookingsRoute = require("./routes/BookingsRoute");
 // const guestRoute = require("./routes/guestRoute");
-// const settingsRoute = require("./routes/settingsRoute");
+const settingsRoute = require("./routes/settingsRoute");
 
 // middleware to parse request body without this we cannot access request body
 app.use(express.json());
@@ -35,7 +35,7 @@ if ((process.env.NODE_ENV = "development")) {
 app.use("/api/v1/cabins", cabinRoute);
 // app.use("/api/v1/bookings", bookingsRoute);
 // app.use("/api/v1/guests", guestRoute);
-// app.use("/api/v1/settings", settingsRoute);
+app.use("/api/v1/settings", settingsRoute);
 
 app.use("*", (req, res, next) => {
   res.status(404).send({
