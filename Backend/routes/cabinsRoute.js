@@ -2,7 +2,9 @@ const express = require("express");
 const cabinsController = require("../controllers/cabinsController");
 const { uploads, resize } = require("../middlewares/imgUpload");
 const cabinRoute = express.Router();
+const { isAuthenticated } = require("../middlewares/authentication");
 
+cabinRoute.use(isAuthenticated);
 cabinRoute
   .route("/")
   .get(cabinsController.getCabins)

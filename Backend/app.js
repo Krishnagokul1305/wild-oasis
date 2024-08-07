@@ -10,7 +10,7 @@ const rateLimiter = require("express-rate-limit"); //limit rate of requests
 const sanitizer = require("express-mongo-sanitize"); //prevents noSQL injections
 
 // routes
-// const userRoute = require("./routes/userRoute");
+const userRoute = require("./routes/userRoute");
 const cabinRoute = require("./routes/cabinsRoute");
 // const bookingsRoute = require("./routes/BookingsRoute");
 // const guestRoute = require("./routes/guestRoute");
@@ -31,7 +31,7 @@ if ((process.env.NODE_ENV = "development")) {
 }
 
 // router middleware
-// app.use("/api/v1/users", userRoute);
+app.use("/api/v1/users", userRoute);
 app.use("/api/v1/cabins", cabinRoute);
 // app.use("/api/v1/bookings", bookingsRoute);
 // app.use("/api/v1/guests", guestRoute);
