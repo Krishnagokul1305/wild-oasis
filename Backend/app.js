@@ -13,7 +13,6 @@ const sanitizer = require("express-mongo-sanitize"); //prevents noSQL injections
 const userRoute = require("./routes/userRoute");
 const cabinRoute = require("./routes/cabinsRoute");
 // const bookingsRoute = require("./routes/BookingsRoute");
-// const guestRoute = require("./routes/guestRoute");
 const settingsRoute = require("./routes/settingsRoute");
 
 // middleware to parse request body without this we cannot access request body
@@ -34,7 +33,6 @@ if ((process.env.NODE_ENV = "development")) {
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/cabins", cabinRoute);
 // app.use("/api/v1/bookings", bookingsRoute);
-// app.use("/api/v1/guests", guestRoute);
 app.use("/api/v1/settings", settingsRoute);
 
 app.use("*", (req, res, next) => {

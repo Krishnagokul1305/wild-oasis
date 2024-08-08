@@ -7,7 +7,9 @@ exports.isAuthenticated = async (req, res, next) => {
     !req.headers.authorization &&
     !req.headers?.authorization?.split(" ")[1]
   ) {
-    res.status(400).send({ error: "please provide authorization token" });
+    return res
+      .status(400)
+      .send({ error: "please provide authorization token" });
   }
 
   // verify the token
@@ -16,13 +18,29 @@ exports.isAuthenticated = async (req, res, next) => {
 
   // get the user from the db
   const user = await userModel.findById(decoded.id);
-  console.log(user);
   if (!user) {
-    res.status(404).send({ error: "no user found" });
+    return res.status(404).send({ error: "no user found" });
   }
 
-  // check if the token expired
+  // check if the user changed the password after token created
+  if (user.hasChangedPassword(decoded.iat)) {
+    return res.status(404).send({
+      error: "user recently changed the password Please login again !",
+    });
+  }
 
   req.user = user;
   next();
 };
+
+exports.isAuthorized =
+  (...authRoles) =>
+  async (req, res, next) => {
+    if (!authRoles.includes(req.user.role)) {
+      return res.status(401).send({
+        error: "you are not authorized to access this route",
+      });
+    }
+
+    next();
+  };

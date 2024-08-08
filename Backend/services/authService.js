@@ -33,7 +33,7 @@ exports.login = catchServiceError(async function (userData) {
     throw new Error("password must be filled");
   }
 
-  const user = await userModel.findOne({ email });
+  const user = await userModel.findOne({ email }).select("+password");
 
   //   check if the user exists and the password is same as the password in db
   if (!user || !(await user.isValidPassword(password, user.password))) {
@@ -42,3 +42,7 @@ exports.login = catchServiceError(async function (userData) {
 
   return user;
 });
+
+exports.forgotPassword = catchServiceError(async function (email) {});
+
+exports.resetPassword = catchServiceError(async function (email) {});
