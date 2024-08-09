@@ -1,12 +1,9 @@
-import Heading from "../ui/Heading";
-import Row from "../ui/Row";
-
 function Dashboard() {
   return (
-    <Row type="horizontal">
-      <Heading as="h1">Dashboard</Heading>
+    <div className="px-3 py-5">
+      <h1>Dashboards</h1>
       <p>TEST</p>
-    </Row>
+    </div>
   );
 }
 

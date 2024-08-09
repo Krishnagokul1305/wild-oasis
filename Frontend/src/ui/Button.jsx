@@ -1,4 +1,3 @@
-import styled, { css } from "styled-components";
 
 const sizes = {
   small: css`
