@@ -1,6 +1,7 @@
 const userModel = require("../models/userModel");
 const catchServiceError = require("../utils/asyncServiceErrorHandler");
 const validator = require("validator");
+const crypto = require("crypto");
 
 exports.signup = catchServiceError(async function (userData) {
   const { fullName, password, email, confirmPassword } = userData;
@@ -43,6 +44,29 @@ exports.login = catchServiceError(async function (userData) {
   return user;
 });
 
-exports.forgotPassword = catchServiceError(async function (email) {});
+exports.forgotPassword = catchServiceError(async function (email) {
+  if (!email) {
+    throw new Error("please provide email");
+  }
+  const user = await userModel.findOne({ email });
+
+  if (!user) {
+    throw new Error("no user found");
+  }
+
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  const encryptedToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  user.passwordResetToken = encryptedToken;
+  user.passwordExpireTime = Date.now() + 10 * 60 * 1000;
+
+  await user.save({ validateBeforeSave: false });
+
+  return resetToken;
+});
 
 exports.resetPassword = catchServiceError(async function (email) {});

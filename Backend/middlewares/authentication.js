@@ -17,7 +17,7 @@ exports.isAuthenticated = async (req, res, next) => {
   const decoded = decodeToken(token);
 
   // get the user from the db
-  const user = await userModel.findById(decoded.id);
+  const user = await userModel.findById(decoded.id).select("+password");
   if (!user) {
     return res.status(404).send({ error: "no user found" });
   }

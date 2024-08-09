@@ -46,18 +46,26 @@ const userSchema = mongoose.Schema(
 
 // pre save middleware to encrypt the password
 userSchema.pre("save", async function (next) {
+  // If the password hasn't been modified, proceed to the next middleware
   if (!this.isModified("password")) return next();
 
-  const encryptedPassword = await bcrypt.hash(this.password, 12);
-  this.password = encryptedPassword;
+  // Hash the password if it's a new document or the password has been modified
+  this.password = await bcrypt.hash(this.password, 12);
+
+  // Set confirmPassword to undefined to not store it in the database
   this.confirmPassword = undefined;
+
+  // If the document is not new and the password has been modified, set passwordChangedAt
+  if (!this.isNew) {
+    this.passwordChangedAt = Date.now() - 1000;
+  }
+
   next();
 });
 
 // method to compare the user input password and the user db password
 // available on all the documents of users
 userSchema.methods.isValidPassword = async function (inpPassword, dbPassword) {
-  console.log(inpPassword);
   return await bcrypt.compare(inpPassword, dbPassword);
 };
 
