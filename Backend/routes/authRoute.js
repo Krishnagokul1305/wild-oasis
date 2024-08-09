@@ -6,6 +6,8 @@ const authRoute = express.Router();
 authRoute.route("/sign-up").post(authController.createUser);
 authRoute.route("/login").post(authController.loginUser);
 authRoute.route("/forgotPassword").post(authController.forgotPassword);
-authRoute.route("/resetPassword").post(authController.resetPassword);
+authRoute
+  .route("/resetPassword/:resetToken")
+  .post(authController.resetPassword);
 
 module.exports = authRoute;

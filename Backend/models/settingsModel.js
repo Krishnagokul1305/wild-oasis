@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 
 const settingsSchema = mongoose.Schema(
   {
+    // here the booking length does not mean booking
+    // it mean how many nights stay
     maxBookingLength: {
       type: Number,
       required: true,

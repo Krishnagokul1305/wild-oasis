@@ -12,7 +12,7 @@ const sanitizer = require("express-mongo-sanitize"); //prevents noSQL injections
 // routes
 const userRoute = require("./routes/userRoute");
 const cabinRoute = require("./routes/cabinsRoute");
-// const bookingsRoute = require("./routes/BookingsRoute");
+const bookingsRoute = require("./routes/BookingsRoute");
 const settingsRoute = require("./routes/settingsRoute");
 const authRoute = require("./routes/authRoute");
 
@@ -34,7 +34,7 @@ if ((process.env.NODE_ENV = "development")) {
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/cabins", cabinRoute);
-// app.use("/api/v1/bookings", bookingsRoute);
+app.use("/api/v1/bookings", bookingsRoute);
 app.use("/api/v1/settings", settingsRoute);
 
 app.use("*", (req, res, next) => {

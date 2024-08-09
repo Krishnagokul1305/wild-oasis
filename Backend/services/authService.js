@@ -69,12 +69,33 @@ exports.forgotPassword = catchServiceError(async function (email) {
   return resetToken;
 });
 
-exports.resetPassword = catchServiceError(async function (email) {
-  // get the token that is sent as a param in the url 
-
-  // the token is encrypted in the db so encrypt the token 
+exports.resetPassword = catchServiceError(async function ({
+  resetToken,
+  confirmPassword,
+  newPassword,
+}) {
+  // get the token that is sent as a param in the url
+  if (!resetToken) {
+    throw new Error("please provide a reset token");
+  }
+  // the token is encrypted in the db so encrypt the token
+  const encryptedToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
 
   // search for the user with the token in the db
+  const user = await userModel.findOne({ passwordResetToken: encryptedToken });
+  if (!user) {
+    throw new Error("user not found");
+  }
 
   // if user exists save the document with new password with save method to enable validation
+
+  user.password = newPassword;
+  user.confirmPassword = confirmPassword;
+  user.passwordResetToken = undefined;
+  user.passwordExpireTime = undefined;
+
+  await user.save();
 });

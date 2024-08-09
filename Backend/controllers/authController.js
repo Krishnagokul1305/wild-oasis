@@ -50,3 +50,22 @@ exports.forgotPassword = async (req, res, next) => {
     res.status(500).send({ error: `Error : ${error.message}` });
   }
 };
+
+exports.resetPassword = async (req, res, next) => {
+  try {
+    const { resetToken } = req.params;
+
+    await authService.resetPassword({
+      resetToken,
+      confirmPassword,
+      newPassword,
+    });
+
+    res.status(200).json({
+      status: "success",
+      message: "password resetted successfully login again",
+    });
+  } catch (error) {
+    res.status(500).send({ error: `Error : ${error.message}` });
+  }
+};
