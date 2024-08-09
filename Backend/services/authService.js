@@ -69,4 +69,12 @@ exports.forgotPassword = catchServiceError(async function (email) {
   return resetToken;
 });
 
-exports.resetPassword = catchServiceError(async function (email) {});
+exports.resetPassword = catchServiceError(async function (email) {
+  // get the token that is sent as a param in the url 
+
+  // the token is encrypted in the db so encrypt the token 
+
+  // search for the user with the token in the db
+
+  // if user exists save the document with new password with save method to enable validation
+});
