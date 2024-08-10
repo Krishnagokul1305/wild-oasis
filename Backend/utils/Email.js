@@ -8,11 +8,11 @@ module.exports = class Mail {
 
   createTransporter() {
     return nodemailer.createTransport({
-      host: "smtp.mailersend.net",
+      host: process.env.MAILER_HOST,
       port: 587,
       auth: {
-        user: "MS_W3M6Zu@trial-pr9084znjqj4w63d.mlsender.net",
-        pass: "4YhBJxM1YSpDLFk4",
+        user: process.env.MAILER_USER,
+        pass: process.env.MAILER_PASSWORD,
       },
     });
   }

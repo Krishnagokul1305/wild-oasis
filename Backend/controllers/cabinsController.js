@@ -29,7 +29,7 @@ exports.getSingleCabin = async (req, res, next) => {
 exports.postCabins = async (req, res, next) => {
   try {
     const cabin = await cabinService.createCabin(req.body);
-    res.status(200).json({
+    res.status(201).json({
       status: "success",
       data: cabin,
     });

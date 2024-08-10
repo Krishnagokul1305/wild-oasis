@@ -15,11 +15,32 @@ exports.getAllBookings = async (req, res, next) => {
 
 exports.createBookings = async (req, res, next) => {
   try {
-    console.log(req.body);
-    await bookingsService.createBookings();
-    res.status(200).send({
-      message: "nothing",
+    const bookingDetails = { ...req.body };
+    console.log(bookingDetails);
+    const newBooking = await bookingsService.createBookings(bookingDetails);
+    console.log(newBooking);
+    res.status(201).send({
+      status: "success",
+      data: newBooking,
     });
+  } catch (error) {
+    res.status(500).send({ error: `Error : ${error.message}` });
+  }
+};
+
+exports.checkIn = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const checkedBooking = await bookingsService.checkIn(id);
+  } catch (error) {
+    res.status(500).send({ error: `Error : ${error.message}` });
+  }
+};
+
+exports.checkIn = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const checkedBooking = await bookingsService.checkOut(id);
   } catch (error) {
     res.status(500).send({ error: `Error : ${error.message}` });
   }

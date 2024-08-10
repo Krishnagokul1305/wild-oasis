@@ -33,11 +33,10 @@ const bookingsSchema = mongoose.Schema(
     status: {
       type: String,
       enum: ["unConfirmed", "checked-in", "checked-out"],
-      default: "pending",
+      default: "unConfirmed",
     },
     hasBreakFast: {
       type: Boolean,
-      default: false,
     },
     isPaid: {
       type: Boolean,
@@ -49,12 +48,12 @@ const bookingsSchema = mongoose.Schema(
     },
     cabin: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Cabin",
+      ref: "cabin",
       required: [true, "Booking must be associated with a cabin"],
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "user",
       required: [true, "Booking must be associated with a user"],
     },
   },
