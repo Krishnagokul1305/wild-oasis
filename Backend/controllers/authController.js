@@ -36,7 +36,7 @@ exports.forgotPassword = async (req, res, next) => {
     const resetToken = await authService.forgotPassword(req.body.email);
     const resetUrl = `${req.protocol}://${req.get(
       "host"
-    )}/api/v1/users/resetPassword/${resetToken}`;
+    )}/api/v1/auth/resetPassword/${resetToken}`;
 
     // send the reset token to email
     await new Email({ email: req.body.email }, resetUrl).sendForgotPassword();
@@ -54,7 +54,7 @@ exports.forgotPassword = async (req, res, next) => {
 exports.resetPassword = async (req, res, next) => {
   try {
     const { resetToken } = req.params;
-
+    const { confirmPassword, newPassword } = req.body;
     await authService.resetPassword({
       resetToken,
       confirmPassword,

@@ -74,6 +74,7 @@ exports.resetPassword = catchServiceError(async function ({
   confirmPassword,
   newPassword,
 }) {
+  console.log(resetToken, confirmPassword, newPassword);
   // get the token that is sent as a param in the url
   if (!resetToken) {
     throw new Error("please provide a reset token");

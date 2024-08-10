@@ -8,18 +8,18 @@ module.exports = class Mail {
 
   createTransporter() {
     return nodemailer.createTransport({
-      host: "sandbox.smtp.mailtrap.io",
-      port: 2525,
+      host: "smtp.mailersend.net",
+      port: 587,
       auth: {
-        user: "3cdee7ce347300",
-        pass: "269f4524e75e06",
+        user: "MS_W3M6Zu@trial-pr9084znjqj4w63d.mlsender.net",
+        pass: "4YhBJxM1YSpDLFk4",
       },
     });
   }
 
   async send(subject) {
     const mailOptions = {
-      from: "Maddison Foo Koch  <maddison53@ethereal.email>",
+      from: "wild-oasis  <gokulakrishnan.ec22@bitsathy.ac.in>",
       to: this.user.email,
       subject,
       text: `reset url : ${this.url}`,

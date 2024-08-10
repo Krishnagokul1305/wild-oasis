@@ -7,7 +7,6 @@ const {
   isAuthorized,
 } = require("../middlewares/authentication");
 
-cabinRoute.use(isAuthenticated);
 cabinRoute
   .route("/")
   .get(cabinsController.getCabins)

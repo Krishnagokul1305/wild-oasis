@@ -3,8 +3,15 @@ const bookingsModel = require("../models/bookingsModel");
 const catchServiceError = require("../utils/asyncServiceErrorHandler");
 const { getSettings } = require("./settingsService");
 
-const createBookings = catchServiceError(async () => {
+exports.createBookings = catchServiceError(async () => {
   const settings = await getSettings();
+  console.log(settings);
 });
 
-const getAllBookings = catchServiceError(async () => {});
+exports.getAllBookings = catchServiceError(async () => {
+  const bookings = await bookingsModel.find();
+
+  console.log(bookings);
+
+  return bookings;
+});
