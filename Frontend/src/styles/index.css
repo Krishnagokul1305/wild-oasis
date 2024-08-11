@@ -27,7 +27,6 @@ select {
   color: inherit;
 }
 
-
 *:disabled {
   cursor: not-allowed;
 }
@@ -54,7 +53,6 @@ h4,
 h5,
 h6 {
   overflow-wrap: break-word;
-  hyphens: auto;
 }
 
 img {
@@ -62,6 +60,10 @@ img {
 
   /* For dark mode */
   filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity));
+}
+
+.active {
+  background-color: #f3f4f6;
 }
 
 /*

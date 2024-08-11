@@ -2,13 +2,15 @@ const express = require("express");
 
 const app = express();
 const path = require("path");
-
+const cors=require("cors")
 // middlewares
 const morgan = require("morgan");
 const helmet = require("helmet"); //http headers setter
 const xss = require("xss-clean"); // prevents htmls entering into db
 const rateLimiter = require("express-rate-limit"); //limit rate of requests
 const sanitizer = require("express-mongo-sanitize"); //prevents noSQL injections
+
+app.use(cors());
 
 // routes
 const userRoute = require("./routes/userRoute");
