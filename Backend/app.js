@@ -1,6 +1,7 @@
 const express = require("express");
 
 const app = express();
+const path = require("path");
 
 // middlewares
 const morgan = require("morgan");
@@ -18,6 +19,9 @@ const authRoute = require("./routes/authRoute");
 
 // middleware to parse request body without this we cannot access request body
 app.use(express.json());
+
+// serving images
+app.use("/api/v1/public", express.static(path.join(__dirname, "public")));
 
 // middlewares for security
 app.use(sanitizer()); //middleware for nosql injection prevention
