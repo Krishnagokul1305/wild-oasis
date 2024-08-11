@@ -12,7 +12,7 @@ const sanitizer = require("express-mongo-sanitize"); //prevents noSQL injections
 // routes
 const userRoute = require("./routes/userRoute");
 const cabinRoute = require("./routes/cabinsRoute");
-const bookingsRoute = require("./routes/BookingsRoute");
+const bookingsRoute = require("./routes/bookingsRoute");
 const settingsRoute = require("./routes/settingsRoute");
 const authRoute = require("./routes/authRoute");
 
