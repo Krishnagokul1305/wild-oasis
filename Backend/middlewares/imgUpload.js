@@ -33,6 +33,8 @@ exports.resize = (fileService) => async (req, res, next) => {
       .toFormat("jpeg")
       .jpeg({ quality: 80 })
       .toFile(`${__dirname}/../public/img/users/${fileName}`);
+
+    req.body.avatar = fileName;
   }
   next();
 };
