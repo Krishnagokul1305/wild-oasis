@@ -19,7 +19,7 @@ module.exports = class Mail {
 
   async send(subject) {
     const mailOptions = {
-      from: "wild-oasis  <gokulakrishnan.ec22@bitsathy.ac.in>",
+      from: "wild-oasis <your-verified-email@example.com>",
       to: this.user.email,
       subject,
       text: `reset url : ${this.url}`,
