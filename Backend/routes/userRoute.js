@@ -14,6 +14,9 @@ userRoute.route("/updatePassword").patch(userController.updatePassword);
 
 // route that can only accessed by the employees
 // userRoute.use(isAuthorized("employee"));
-userRoute.route("/").get(userController.getAllUsers);
+userRoute
+  .route("/")
+  .get(userController.getAllUsers)
+  .post(userController.createNewUser);
 userRoute.route("/:id").get(userController.getUser);
 module.exports = userRoute;

@@ -1,6 +1,7 @@
 const userModel = require("../models/userModel");
 const catchServiceError = require("../utils/asyncServiceErrorHandler");
 const ApiFeatures = require("../utils/ApiFeatures");
+const validator = require("validator");
 
 exports.getAllUsers = catchServiceError(async (queryObj) => {
   let query = {};
@@ -16,6 +17,28 @@ exports.getAllUsers = catchServiceError(async (queryObj) => {
 
   const users = await features.query;
   return users;
+});
+
+exports.createUsers = catchServiceError(async (userData) => {
+  const { fullName, password, email, confirmPassword } = userData;
+  if (!fullName) {
+    throw new Error("fullName must be filled");
+  }
+  if (!password) {
+    throw new Error("password must be filled");
+  }
+  if (!email && validator.isEmail(email)) {
+    throw new Error("email must be filled");
+  }
+  if (!validator.isEmail(email)) {
+    throw new Error("Invalid email");
+  }
+  if (!confirmPassword) {
+    throw new Error("confirmPassword must be filled");
+  }
+  const newUser = await userModel.create(userData);
+
+  return newUser;
 });
 
 exports.updateUserDetails = catchServiceError(async ({ id, updateData }) => {

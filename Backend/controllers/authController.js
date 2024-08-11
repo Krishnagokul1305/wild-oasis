@@ -2,7 +2,7 @@ const authService = require("../services/authService");
 const { createToken } = require("../utils/jwtProvider");
 const Email = require("../utils/Email");
 
-exports.createUser = async (req, res, next) => {
+exports.signup = async (req, res, next) => {
   try {
     const newUser = await authService.signup(req.body);
     const token = createToken(newUser.id);

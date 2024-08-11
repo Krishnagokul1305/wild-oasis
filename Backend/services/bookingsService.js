@@ -113,6 +113,8 @@ exports.getTodayActivities = catchServiceError(async () => {
   return todayBookings;
 });
 
+exports;
+
 exports.updateBooking = catchServiceError(
   async ({ id: bookingId, updateData }) => {
     if (updateData.status) {

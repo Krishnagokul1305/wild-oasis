@@ -6,6 +6,7 @@ exports.getAllUsers = async (req, res, next) => {
     const users = await userService.getAllUsers(req.query);
     res.status(200).json({
       status: "success",
+      results: users.length,
       data: users,
     });
   } catch (error) {
@@ -21,6 +22,21 @@ exports.getUser = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       data: user,
+    });
+  } catch (error) {
+    res.status(500).send({ error: `Error : ${error.message}` });
+  }
+};
+
+exports.createNewUser = async (req, res, next) => {
+  try {
+    const { _id, fullName, email, createdAt } = await userService.createUsers(
+      req.body
+    );
+
+    res.status(201).json({
+      status: "success",
+      data: { _id, fullName, email, createdAt },
     });
   } catch (error) {
     res.status(500).send({ error: `Error : ${error.message}` });
