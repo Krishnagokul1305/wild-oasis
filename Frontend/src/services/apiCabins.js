@@ -10,12 +10,51 @@ export const getAllCabins = async () => {
   return data;
 };
 
-getAllCabins();
-
 // export const getCabin = async (id) => {};
 
-export const createCabin = async (data) => {};
+export const createCabin = async (cabinData) => {
+  try {
+    const res = await fetch(CABIN_Url, {
+      method: "POST",
+      body: cabinData,
+    });
 
-export const updateCabin = async (id, data) => {};
+    if (!res.ok) {
+      throw new Error("Failed to create a new cabin.");
+    }
 
-export const deleteCabin = async (id) => {};
+    const { data } = await res.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error("Error creating cabin:", error);
+    throw error;
+  }
+};
+
+export const updateCabin = async ({ id, data: cabinData }) => {
+  try {
+    const res = await fetch(`${CABIN_Url}/${id}`, {
+      method: "PATCH",
+      body: cabinData,
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to create a new cabin.");
+    }
+
+    const { data } = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Error creating cabin:", error);
+    throw error;
+  }
+};
+
+export const deleteCabin = async (id) => {
+  const res = await fetch(`${CABIN_Url}/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) return new Error("cabin cannot be deleted");
+};

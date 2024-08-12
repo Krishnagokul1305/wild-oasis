@@ -23,6 +23,7 @@ const cabinSchema = mongoose.Schema(
         },
         message: "discount price must be less than regular price",
       },
+      default: 0,
     },
     description: {
       type: String,
@@ -30,7 +31,7 @@ const cabinSchema = mongoose.Schema(
     },
     image: {
       type: String,
-      required: [true, "a cabin must have image"],
+      // required: [true, "a cabin must have image"],
     },
   },
   {

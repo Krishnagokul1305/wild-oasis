@@ -53,8 +53,8 @@ exports.deleteCabin = async (req, res, next) => {
 exports.updateCabin = async (req, res, next) => {
   try {
     const { id } = req.params;
-    console.log(res.file, req.body.image);
     const newCabin = await cabinService.updateCabin({ id, data: req.body });
+    console.log(newCabin)
     res.status(200).json({
       status: "success",
       data: newCabin,

@@ -24,6 +24,7 @@ exports.createCabin = catchServiceError(async (cabinData) => {
 
 exports.updateCabin = async ({ id, data }) => {
   try {
+    console.log(data);
     const updatedCabin = await cabinModel.findByIdAndUpdate(id, data, {
       runValidators: true,
       new: true,

@@ -16,7 +16,6 @@ exports.uploads = multer({
 
 exports.resize = (fileService) => async (req, res, next) => {
   if (!req.file) return next();
-
   let fileName;
   if (fileService == "cabin") {
     fileName = `cabin-${uuidv4()}.jpeg`;

@@ -1,40 +1,68 @@
-import styled from "styled-components";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { CABIN_IMG } from "../../../config/config";
+import { formatCurrency } from "../../utils/helpers";
+import { deleteCabin } from "../../services/apiCabins";
+import toast from "react-hot-toast";
+import { useState } from "react";
+import CreateCabinForm from "./CreateCabinForm";
 
-const TableRow = styled.div`
-  display: grid;
-  grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
-  column-gap: 2.4rem;
-  align-items: center;
-  padding: 1.4rem 2.4rem;
+function CabinRow({ cabin }) {
+  const { _id: id, name, maxCapacity, regularPrice, discount, image } = cabin;
+  const [showForm, setShowForm] = useState(false);
+  const queryClient = useQueryClient();
 
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-`;
+  const { mutate, isLoading: isDeleting } = useMutation({
+    mutationFn: (id) => deleteCabin(id),
+    onSuccess: () => {
+      toast.success("Cabin deleted successfully");
+      queryClient.invalidateQueries({
+        queryKey: ["cabin"],
+      });
+    },
+    onError: (err) => toast.error(err),
+  });
 
-const Img = styled.img`
-  display: block;
-  width: 6.4rem;
-  aspect-ratio: 3 / 2;
-  object-fit: cover;
-  object-position: center;
-  transform: scale(1.5) translateX(-7px);
-`;
+  return (
+    <>
+      <tr className="border-b border-grey-100 text-base px-3">
+        <td className="p-4">
+          <img
+            src={`${CABIN_IMG}/${image}`}
+            className="block w-16 aspect-[3/2] object-cover object-center transform scale-[1.1] -translate-x-1.5"
+            alt="image description"
+          />
+        </td>
+        <td className="p-4">{name}</td>
+        <td className="p-4">{`fits up to ${maxCapacity} guests`}</td>
+        <td className="p-4 font-bold">{formatCurrency(regularPrice)}</td>
+        <td className="p-4 text-green-600 font-bold">
+          {formatCurrency(discount)}
+        </td>
+        <td className="p-4 flex gap-2">
+          <button
+            className="border-2 px-3 py-2 rounded-md"
+            onClick={() => setShowForm(!showForm)}
+          >
+            Edit
+          </button>
+          <button
+            className="border-2 px-3 py-2 rounded-md"
+            onClick={() => mutate(id)}
+            disabled={isDeleting}
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+      {showForm && (
+        <tr>
+          <td colSpan="6" className="p-4">
+            <CreateCabinForm cabinToEdit={cabin} />
+          </td>
+        </tr>
+      )}
+    </>
+  );
+}
 
-const Cabin = styled.div`
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: var(--color-grey-600);
-  font-family: "Sono";
-`;
-
-const Price = styled.div`
-  font-family: "Sono";
-  font-weight: 600;
-`;
-
-const Discount = styled.div`
-  font-family: "Sono";
-  font-weight: 500;
-  color: var(--color-green-700);
-`;
+export default CabinRow;
