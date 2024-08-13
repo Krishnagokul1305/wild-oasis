@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import useCreateCabin from "./useCreateCabin";
 import useEditCabin from "./useEditCabin";
 
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToEdit = {}, onClose }) {
   const { _id: id, ...editValues } = cabinToEdit;
   const isEditingSession = id ? true : false;
   const {
@@ -29,8 +29,9 @@ function CreateCabinForm({ cabinToEdit = {} }) {
     if (data.image[0]?.name) {
       formData.append("image", data.image[0]);
     }
-    console.log(id);
+
     isEditingSession ? editCabin({ id, formData }) : createCabin(formData);
+    onClose?.();
     reset();
   }
 
@@ -40,7 +41,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
   return (
     <form
-      className="space-y-3 text-lg bg-white px-5 py-6"
+      className="text-lg bg-white px-5"
       onSubmit={handleSubmit(onSubmit, onError)}
     >
       {/* Form Row */}
@@ -194,6 +195,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
           type="reset"
           className="py-2 px-4 bg-grey-200 text-grey-700 rounded-md hover:bg-grey-300"
           disabled={isLoading}
+          onClick={() => onClose?.()}
         >
           Cancel
         </button>

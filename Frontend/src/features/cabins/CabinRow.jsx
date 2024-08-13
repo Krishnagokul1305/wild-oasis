@@ -3,12 +3,12 @@ import { formatCurrency } from "../../utils/helpers";
 import { useState } from "react";
 import CreateCabinForm from "./CreateCabinForm";
 import useDeleteCabin from "./useDeleteCabin";
+import Modal from "../../ui/Modal";
 
 function CabinRow({ cabin }) {
   const { _id: id, name, maxCapacity, regularPrice, discount, image } = cabin;
-  const [showForm, setShowForm] = useState(false);
   const { deleteCabin, isDeleting } = useDeleteCabin();
-
+  let [isOpen, setIsOpen] = useState(false);
   return (
     <>
       <tr className="border-b border-grey-100 text-base px-3">
@@ -28,7 +28,7 @@ function CabinRow({ cabin }) {
         <td className="p-4 flex gap-2">
           <button
             className="border-2 px-3 py-2 rounded-md"
-            onClick={() => setShowForm(!showForm)}
+            onClick={() => setIsOpen(!isOpen)}
           >
             Edit
           </button>
@@ -41,10 +41,15 @@ function CabinRow({ cabin }) {
           </button>
         </td>
       </tr>
-      {showForm && (
+      {isOpen && (
         <tr>
           <td colSpan="6" className="p-4">
-            <CreateCabinForm cabinToEdit={cabin} />
+            <Modal onClose={() => setIsOpen(false)}>
+              <CreateCabinForm
+                cabinToEdit={cabin}
+                onClose={() => setIsOpen(false)}
+              />
+            </Modal>
           </td>
         </tr>
       )}

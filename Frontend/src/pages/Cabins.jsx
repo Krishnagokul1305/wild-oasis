@@ -4,6 +4,7 @@ import Spinner from "../ui/Spinner";
 import CabinTable from "../features/cabins/CabinTable";
 import CreateCabinForm from "../features/cabins/CreateCabinForm";
 import { useState } from "react";
+import AddCabin from "../features/cabins/AddCabin";
 
 function Cabins() {
   const { isLoading, data: cabins } = useQuery({
@@ -11,7 +12,6 @@ function Cabins() {
     queryFn: getAllCabins,
   });
 
-  let [isOpen, setIsOpen] = useState(false);
 
   if (isLoading) return <Spinner />;
   return (
@@ -21,13 +21,7 @@ function Cabins() {
         <p className="text-lg">Filter / sort</p>
       </div>
       <CabinTable cabins={cabins} />
-      <button
-        className="py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 text-lg mt-5 ms-auto block"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        Add cabin
-      </button>
-      {isOpen && <CreateCabinForm />}
+      <AddCabin />
     </>
   );
 }
