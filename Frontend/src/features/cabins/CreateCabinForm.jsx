@@ -1,7 +1,6 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { createCabin, updateCabin } from "../../services/apiCabins";
-import toast from "react-hot-toast";
+import useCreateCabin from "./useCreateCabin";
+import useEditCabin from "./useEditCabin";
 
 function CreateCabinForm({ cabinToEdit = {} }) {
   const { _id: id, ...editValues } = cabinToEdit;
@@ -14,32 +13,10 @@ function CreateCabinForm({ cabinToEdit = {} }) {
     formState: { errors },
   } = useForm({ defaultValues: editValues });
 
-  const queryClient = useQueryClient();
+  const { createCabin, isCreating } = useCreateCabin();
+  const { editCabin, isEditing } = useEditCabin();
 
-  const { mutate: createCabinData } = useMutation({
-    mutationFn: (data) => createCabin(data),
-    onSuccess: () => {
-      toast.success("cabin created successfully");
-      queryClient.invalidateQueries("cabin");
-    },
-    onError: (err) => {
-      toast.error(err.message);
-    },
-  });
-
-  const { mutate: editCabinData } = useMutation({
-    mutationFn: (data) => {
-      console.log(data.get("image"));
-      updateCabin({ id, data });
-    },
-    onSuccess: () => {
-      toast.success("cabin update successfully");
-      queryClient.invalidateQueries("cabin");
-    },
-    onError: (err) => {
-      toast.error(err.message);
-    },
-  });
+  const isLoading = isCreating || isEditing;
 
   function onSubmit(data) {
     const formData = new FormData();
@@ -48,10 +25,12 @@ function CreateCabinForm({ cabinToEdit = {} }) {
     formData.append("regularPrice", data.regularPrice);
     formData.append("discount", data.discount);
     formData.append("description", data.description);
-    if (data.image[0].name) {
+    console.log(formData.get("discount"), formData.get("regularPrice"));
+    if (data.image[0]?.name) {
       formData.append("image", data.image[0]);
     }
-    isEditingSession ? editCabinData(formData) : createCabinData(formData);
+    console.log(id);
+    isEditingSession ? editCabin({ id, formData }) : createCabin(formData);
     reset();
   }
 
@@ -77,6 +56,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
             {...register("name", {
               required: "This field is required",
             })}
+            disabled={isLoading}
           />
           {errors?.name?.message && (
             <p className="text-sm text-red-700 mt-2 ">{errors.name.message}</p>
@@ -99,6 +79,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
               minLength: 1,
               required: "This field is required",
             })}
+            disabled={isLoading}
           />
           {errors?.maxCapacity?.message && (
             <p className="text-sm text-red-700 mt-2">
@@ -122,6 +103,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
               minLength: 1,
               required: "This field is required",
             })}
+            disabled={isLoading}
           />
           {errors?.regularPrice?.message && (
             <p className="text-sm text-red-700 mt-2">
@@ -147,6 +129,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
                 val <= getValues("regularPrice") ||
                 "Discount must be less than regular price",
             })}
+            disabled={isLoading}
           />
           {errors?.discount?.message && (
             <p className="text-sm text-red-700 mt-2">
@@ -169,6 +152,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
             {...register("description", {
               required: "This field is required",
             })}
+            disabled={isLoading}
           ></textarea>
           {errors?.description?.message && (
             <p className="text-sm text-red-700 mt-2">
@@ -197,6 +181,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
             {...register("image", {
               required: isEditingSession ? false : "This field is required",
             })}
+            disabled={isLoading}
           />
           {errors?.image?.message && (
             <p className="text-sm text-red-700 mt-2">{errors.image.message}</p>
@@ -208,12 +193,14 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         <button
           type="reset"
           className="py-2 px-4 bg-grey-200 text-grey-700 rounded-md hover:bg-grey-300"
+          disabled={isLoading}
         >
           Cancel
         </button>
         <button
           type="submit"
           className="py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+          disabled={isLoading}
         >
           {isEditingSession ? "Edit cabin" : " Add cabin"}
         </button>

@@ -29,6 +29,7 @@ exports.getSingleCabin = async (req, res, next) => {
 exports.postCabins = async (req, res, next) => {
   try {
     const cabin = await cabinService.createCabin(req.body);
+    console.log(req.body);
     res.status(201).json({
       status: "success",
       data: cabin,
@@ -53,8 +54,9 @@ exports.deleteCabin = async (req, res, next) => {
 exports.updateCabin = async (req, res, next) => {
   try {
     const { id } = req.params;
+    console.log(req.body);  
     const newCabin = await cabinService.updateCabin({ id, data: req.body });
-    console.log(newCabin)
+    console.log(newCabin);
     res.status(200).json({
       status: "success",
       data: newCabin,

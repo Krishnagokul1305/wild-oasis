@@ -34,6 +34,7 @@ export const createCabin = async (cabinData) => {
 
 export const updateCabin = async ({ id, data: cabinData }) => {
   try {
+    console.log(id,cabinData);
     const res = await fetch(`${CABIN_Url}/${id}`, {
       method: "PATCH",
       body: cabinData,

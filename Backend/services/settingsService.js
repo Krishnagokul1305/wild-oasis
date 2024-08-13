@@ -7,7 +7,6 @@ exports.getSettings = catchServiceError(async () => {
 });
 
 exports.updateSettings = catchServiceError(async (data) => {
-  console.log(data);
   const updatedSettings = await settingsModel.findOneAndUpdate({}, data, {
     new: true,
     runValidators: true,

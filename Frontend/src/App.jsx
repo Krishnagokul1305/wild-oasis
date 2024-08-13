@@ -55,3 +55,6 @@ function App() {
 }
 
 export default App;
+
+// fetching application settings
+// updating application settings in frontend
