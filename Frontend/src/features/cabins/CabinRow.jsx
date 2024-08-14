@@ -8,7 +8,6 @@ import Modal from "../../ui/Modal";
 function CabinRow({ cabin }) {
   const { _id: id, name, maxCapacity, regularPrice, discount, image } = cabin;
   const { deleteCabin, isDeleting } = useDeleteCabin();
-  let [isOpen, setIsOpen] = useState(false);
   return (
     <>
       <tr className="border-b border-grey-100 text-base px-3">
@@ -26,12 +25,14 @@ function CabinRow({ cabin }) {
           {formatCurrency(discount)}
         </td>
         <td className="p-4 flex gap-2">
-          <button
-            className="border-2 px-3 py-2 rounded-md"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            Edit
-          </button>
+          <Modal>
+            <Modal.Open>
+              <button className="border-2 px-3 py-2 rounded-md">Edit</button>
+            </Modal.Open>
+            <Modal.Window>
+              <CreateCabinForm cabinToEdit={cabin} />
+            </Modal.Window>
+          </Modal>
           <button
             className="border-2 px-3 py-2 rounded-md"
             onClick={() => deleteCabin(id)}
@@ -41,18 +42,6 @@ function CabinRow({ cabin }) {
           </button>
         </td>
       </tr>
-      {isOpen && (
-        <tr>
-          <td colSpan="6" className="p-4">
-            <Modal onClose={() => setIsOpen(false)}>
-              <CreateCabinForm
-                cabinToEdit={cabin}
-                onClose={() => setIsOpen(false)}
-              />
-            </Modal>
-          </td>
-        </tr>
-      )}
     </>
   );
 }
