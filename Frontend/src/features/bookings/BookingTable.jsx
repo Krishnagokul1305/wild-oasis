@@ -1,30 +1,48 @@
-import BookingRow from "./BookingRow";
+import { useQuery } from "@tanstack/react-query";
 import Table from "../../ui/Table";
-import Menus from "../../ui/Menus";
+import Spinner from "../../ui/Spinner";
+import { getBookings } from "../../services/apiBookings";
+import BookingRow from "./BookingRow";
+import { useSearchParams } from "react-router-dom";
 
 function BookingTable() {
-  const bookings = [];
+  const { data: bookings = [], isLoading } = useQuery({
+    queryKey: ["bookings"],
+    queryFn: getBookings,
+  });
+
+  let filtered = [];
+  const [searchparams] = useSearchParams();
+  let filteredObj = searchparams.get("bookings");
+  filtered = bookings.filter((booking) => {
+    if (filteredObj == "all") return booking;
+    if (filteredObj == "Unconfirmed") return booking.status == "unConfirmed";
+    if (filteredObj == "checked-in") return booking.status == "checked-in";
+    if (filteredObj == "checked-out") return booking.status == "checked-out";
+  });
+
+  console.log(filtered);
+  if (isLoading) return <Spinner />;
 
   return (
-    <Menus>
-      <Table columns="0.6fr 2fr 2.4fr 1.4fr 1fr 3.2rem">
-        <Table.Header>
-          <div>Cabin</div>
-          <div>Guest</div>
-          <div>Dates</div>
-          <div>Status</div>
-          <div>Amount</div>
-          <div></div>
-        </Table.Header>
-
-        <Table.Body
-          data={bookings}
+    <div className="border border-grey-200 text-sm bg-grey-0 rounded-lg overflow-hidden mt-5">
+      <Table>
+        <Table.TableHead>
+          <th className="p-4 text-left">Cabin</th>
+          <th className="p-4 text-left">Guest</th>
+          <th className="p-4 text-left">Stay Duration</th>
+          <th className="p-4 text-left">Status</th>
+          <th className="p-4 text-left">Total Price</th>
+          <th className="p-4 text-left"></th>
+        </Table.TableHead>
+        <Table.TableBody
+          data={filtered}
           render={(booking) => (
             <BookingRow key={booking.id} booking={booking} />
           )}
         />
       </Table>
-    </Menus>
+    </div>
   );
 }
 

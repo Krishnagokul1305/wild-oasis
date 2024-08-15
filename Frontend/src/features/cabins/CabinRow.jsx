@@ -1,9 +1,9 @@
 import { CABIN_IMG } from "../../../config/config";
 import { formatCurrency } from "../../utils/helpers";
-import { useState } from "react";
 import CreateCabinForm from "./CreateCabinForm";
 import useDeleteCabin from "./useDeleteCabin";
 import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 
 function CabinRow({ cabin }) {
   const { _id: id, name, maxCapacity, regularPrice, discount, image } = cabin;
@@ -22,9 +22,10 @@ function CabinRow({ cabin }) {
         <td className="p-4">{`fits up to ${maxCapacity} guests`}</td>
         <td className="p-4 font-bold">{formatCurrency(regularPrice)}</td>
         <td className="p-4 text-green-600 font-bold">
-          {formatCurrency(discount)}
+          {discount?formatCurrency(discount):<span className="ms-5">-</span>}
         </td>
         <td className="p-4 flex gap-2">
+          {/* modal to edit cabin */}
           <Modal>
             <Modal.Open>
               <button className="border-2 px-3 py-2 rounded-md">Edit</button>
@@ -33,13 +34,20 @@ function CabinRow({ cabin }) {
               <CreateCabinForm cabinToEdit={cabin} />
             </Modal.Window>
           </Modal>
-          <button
-            className="border-2 px-3 py-2 rounded-md"
-            onClick={() => deleteCabin(id)}
-            disabled={isDeleting}
-          >
-            Delete
-          </button>
+
+          {/* modal to delete cabin */}
+          <Modal>
+            <Modal.Open>
+              <button className="border-2 px-3 py-2 rounded-md">Delete</button>
+            </Modal.Open>
+            <Modal.Window>
+              <ConfirmDelete
+                resourceName={`Cabin ${name}`}
+                onConfirm={() => deleteCabin(id)}
+                disabled={isDeleting}
+              />
+            </Modal.Window>
+          </Modal>
         </td>
       </tr>
     </>

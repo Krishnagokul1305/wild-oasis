@@ -1,9 +1,16 @@
+import BookingTable from "../features/bookings/BookingTable";
+import BookingTableOperations from "../features/bookings/BookingTableOperations";
+
 function Bookings() {
+
   return (
-    <div>
-      <h1>All bookings</h1>
-      <p>TEST</p>
-    </div>
+    <>
+      <div className="flex items-center justify-between ">
+        <h1 className="font-bold">All Bookings</h1>
+        <BookingTableOperations/>
+      </div>
+      <BookingTable />
+    </>
   );
 }
 

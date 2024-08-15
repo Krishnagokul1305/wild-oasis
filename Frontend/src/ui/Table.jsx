@@ -1,60 +1,40 @@
-import styled from "styled-components";
+function Table({ children }) {
+  return <table className="min-w-full bg-white">{children}</table>;
+}
 
-const StyledTable = styled.div`
-  border: 1px solid var(--color-grey-200);
+function TableHead({ children }) {
+  return (
+    <thead>
+      <tr className="bg-grey-50 border-b border-grey-100 uppercase tracking-wider font-semibold text-grey-600">
+        {children}
+      </tr>
+    </thead>
+  );
+}
 
-  font-size: 1.4rem;
-  background-color: var(--color-grey-0);
-  border-radius: 7px;
-  overflow: hidden;
-`;
+function TableBody({ data, render }) {
+  // if (data.length == 0) return;
+  return (
+    <tbody>
+      {data.length == 0 ? <EmptyTable /> : data.map(render)}
+    </tbody>
+  );
+}
 
-const CommonRow = styled.div`
-  display: grid;
-  grid-template-columns: ${(props) => props.columns};
-  column-gap: 2.4rem;
-  align-items: center;
-  transition: none;
-`;
+function EmptyTable({ colSpan }) {
+  return (
+    <tr>
+      <td
+        className="flex items-center justify-center w-full py-5 text-lg"
+        colSpan={colSpan}
+      >
+        No data to show
+      </td>
+    </tr>
+  );
+}
 
-const StyledHeader = styled(CommonRow)`
-  padding: 1.6rem 2.4rem;
+Table.TableHead = TableHead;
+Table.TableBody = TableBody;
 
-  background-color: var(--color-grey-50);
-  border-bottom: 1px solid var(--color-grey-100);
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  font-weight: 600;
-  color: var(--color-grey-600);
-`;
-
-const StyledRow = styled(CommonRow)`
-  padding: 1.2rem 2.4rem;
-
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-`;
-
-const StyledBody = styled.section`
-  margin: 0.4rem 0;
-`;
-
-const Footer = styled.footer`
-  background-color: var(--color-grey-50);
-  display: flex;
-  justify-content: center;
-  padding: 1.2rem;
-
-  /* This will hide the footer when it contains no child elements. Possible thanks to the parent selector :has 🎉 */
-  &:not(:has(*)) {
-    display: none;
-  }
-`;
-
-const Empty = styled.p`
-  font-size: 1.6rem;
-  font-weight: 500;
-  text-align: center;
-  margin: 2.4rem;
-`;
+export default Table;
