@@ -2,10 +2,12 @@ const bookingsService = require("../services/bookingsService");
 
 exports.getAllBookings = async (req, res, next) => {
   try {
-    const bookings = await bookingsService.getAllBookings(req.query);
+    const { bookings, totalBookings } = await bookingsService.getAllBookings(
+      req.query
+    );
     res.status(200).json({
       status: "success",
-      results: bookings.length,
+      results: totalBookings,
       data: bookings,
     });
   } catch (error) {

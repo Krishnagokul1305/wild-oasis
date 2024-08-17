@@ -1,20 +1,5 @@
-import styled from "styled-components";
-
 import BookingDataBox from "./BookingDataBox";
-import Row from "../../ui/Row";
-import Heading from "../../ui/Heading";
-import Tag from "../../ui/Tag";
-import ButtonGroup from "../../ui/ButtonGroup";
-import Button from "../../ui/Button";
-import ButtonText from "../../ui/ButtonText";
-
 import { useMoveBack } from "../../hooks/useMoveBack";
-
-const HeadingGroup = styled.div`
-  display: flex;
-  gap: 2.4rem;
-  align-items: center;
-`;
 
 function BookingDetail() {
   const booking = {};
@@ -22,29 +7,41 @@ function BookingDetail() {
 
   const moveBack = useMoveBack();
 
-  const statusToTagName = {
-    unconfirmed: "blue",
-    "checked-in": "green",
-    "checked-out": "silver",
+  const statusToTagColor = {
+    unconfirmed: "bg-blue-100 text-blue-800",
+    "checked-in": "bg-green-100 text-green-800",
+    "checked-out": "bg-gray-100 text-gray-800",
   };
 
   return (
     <>
-      <Row type="horizontal">
-        <HeadingGroup>
-          <Heading as="h1">Booking #X</Heading>
-          <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
-        </HeadingGroup>
-        <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
-      </Row>
+      <div className="flex justify-between items-center">
+        <div className="flex gap-6 items-center">
+          <h1 className="text-2xl font-semibold">Booking #X</h1>
+          <span
+            className={`px-3 py-1 rounded-full text-sm font-medium ${statusToTagColor[status]}`}
+          >
+            {status.replace("-", " ")}
+          </span>
+        </div>
+        <button
+          onClick={moveBack}
+          className="text-blue-600 hover:underline focus:outline-none"
+        >
+          &larr; Back
+        </button>
+      </div>
 
       <BookingDataBox booking={booking} />
 
-      <ButtonGroup>
-        <Button variation="secondary" onClick={moveBack}>
+      <div className="mt-4 flex justify-end gap-4">
+        <button
+          onClick={moveBack}
+          className="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200"
+        >
           Back
-        </Button>
-      </ButtonGroup>
+        </button>
+      </div>
     </>
   );
 }

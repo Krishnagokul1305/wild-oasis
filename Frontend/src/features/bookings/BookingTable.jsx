@@ -4,24 +4,36 @@ import Spinner from "../../ui/Spinner";
 import { getBookings } from "../../services/apiBookings";
 import BookingRow from "./BookingRow";
 import { useSearchParams } from "react-router-dom";
+import Pagination from "../../ui/Pagination";
 
 function BookingTable() {
-  const { data: bookings = [], isLoading } = useQuery({
-    queryKey: ["bookings"],
-    queryFn: getBookings,
+  const [searchparams] = useSearchParams();
+  let currentPage = searchparams.get("page") || 1;
+  
+  const {
+    data,
+    isLoading,
+  } = useQuery({
+    queryKey: ["bookings", currentPage],
+    queryFn: () => getBookings(currentPage),
   });
+  // console.log(data);
+
+  const bookings = data?.data || [];
+
+  const results = data?.results || 0; 
 
   let filtered = [];
-  const [searchparams] = useSearchParams();
-  let filteredObj = searchparams.get("bookings");
+
+  let filteredObj = searchparams.get("bookings") || "all";
+
   filtered = bookings.filter((booking) => {
-    if (filteredObj == "all") return booking;
+    if (filteredObj == "all") return true;
     if (filteredObj == "Unconfirmed") return booking.status == "unConfirmed";
     if (filteredObj == "checked-in") return booking.status == "checked-in";
     if (filteredObj == "checked-out") return booking.status == "checked-out";
   });
 
-  console.log(filtered);
   if (isLoading) return <Spinner />;
 
   return (
@@ -38,10 +50,11 @@ function BookingTable() {
         <Table.TableBody
           data={filtered}
           render={(booking) => (
-            <BookingRow key={booking.id} booking={booking} />
+            <BookingRow key={booking._id} booking={booking} />
           )}
         />
       </Table>
+      <Pagination count={results} />
     </div>
   );
 }

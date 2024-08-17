@@ -26,7 +26,9 @@ exports.getAllBookings = catchServiceError(async (queryObj) => {
       select: "name -_id",
     });
 
-  return bookings;
+  const totalBookings = await bookingsModel.countDocuments();
+
+  return { bookings, totalBookings };
 });
 
 exports.createBookings = catchServiceError(async (bookingDetails) => {

@@ -1,11 +1,13 @@
-import { API_BASE_URL } from "../../config/config";
+import { API_BASE_URL, RES_PER_PAGE } from "../../config/config";
 
 const BOOKINGS_Url = `${API_BASE_URL}/bookings`;
 
-export const getBookings = async () => {
-  const res = await fetch(BOOKINGS_Url);
+export const getBookings = async (currentPage) => {
+  const res = await fetch(
+    `${BOOKINGS_Url}?page=${currentPage}&limit=${RES_PER_PAGE}`
+  );
 
-  const { data } = await res.json();
-  console.log(data);
-  return data;
+  const { data, results } = await res.json();
+
+  return { data,results} ;
 };
