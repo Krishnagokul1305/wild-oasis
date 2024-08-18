@@ -83,7 +83,16 @@ exports.checkOut = catchServiceError(async (bookingId) => {
 });
 
 exports.getBookingById = catchServiceError(async (bookingId) => {
-  const booking = await bookingsModel.findById(bookingId);
+  const booking = await bookingsModel
+    .findById(bookingId)
+    .populate({
+      path: "user",
+      select: "email fullName -_id",
+    })
+    .populate({
+      path: "cabin",
+      select: "name -_id",
+    });
 
   if (!booking) {
     throw new Error("Invalid Id : no booking found for the id");

@@ -4,6 +4,7 @@ import CreateCabinForm from "./CreateCabinForm";
 import useDeleteCabin from "./useDeleteCabin";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
+import Menus from "../../ui/Menus";
 
 function CabinRow({ cabin }) {
   const { _id: id, name, maxCapacity, regularPrice, discount, image } = cabin;
@@ -22,32 +23,45 @@ function CabinRow({ cabin }) {
         <td className="p-4">{`fits up to ${maxCapacity} guests`}</td>
         <td className="p-4 font-bold">{formatCurrency(regularPrice)}</td>
         <td className="p-4 text-green-600 font-bold">
-          {discount?formatCurrency(discount):<span className="ms-5">-</span>}
+          {discount ? (
+            formatCurrency(discount)
+          ) : (
+            <span className="ms-5">-</span>
+          )}
         </td>
         <td className="p-4 flex gap-2">
-          {/* modal to edit cabin */}
-          <Modal>
-            <Modal.Open>
-              <button className="border-2 px-3 py-2 rounded-md">Edit</button>
-            </Modal.Open>
-            <Modal.Window>
-              <CreateCabinForm cabinToEdit={cabin} />
-            </Modal.Window>
-          </Modal>
+          <Menus.Menu>
+            <Menus.ToggleBtn id={id} />
+            <Modal>
+              {/* modal to edit cabin */}
+              <Menus.MenuList id={id}>
+                <Modal.Open opens="edit">
+                  <Menus.MenuButton>
+                    <button className=" px-3 py-2 rounded-md">edit</button>
+                  </Menus.MenuButton>
+                </Modal.Open>
 
-          {/* modal to delete cabin */}
-          <Modal>
-            <Modal.Open>
-              <button className="border-2 px-3 py-2 rounded-md">Delete</button>
-            </Modal.Open>
-            <Modal.Window>
-              <ConfirmDelete
-                resourceName={`Cabin ${name}`}
-                onConfirm={() => deleteCabin(id)}
-                disabled={isDeleting}
-              />
-            </Modal.Window>
-          </Modal>
+                {/* modal to delete cabin */}
+                <Modal.Open opens="delete">
+                  <Menus.MenuButton>
+                    <button className="px-3 py-2 rounded-md">Delete</button>
+                  </Menus.MenuButton>
+                </Modal.Open>
+              </Menus.MenuList>
+
+              <Modal.Window name="delete">
+                <ConfirmDelete
+                  resourceName={`Cabin ${name}`}
+                  onConfirm={() => deleteCabin(id)}
+                  disabled={isDeleting}
+                />
+              </Modal.Window>
+
+              <Modal.Window name="edit">
+                <CreateCabinForm cabinToEdit={cabin} />
+              </Modal.Window>
+            </Modal>
+          </Menus.Menu>
         </td>
       </tr>
     </>

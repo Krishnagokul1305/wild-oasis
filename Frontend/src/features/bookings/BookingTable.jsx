@@ -5,23 +5,20 @@ import { getBookings } from "../../services/apiBookings";
 import BookingRow from "./BookingRow";
 import { useSearchParams } from "react-router-dom";
 import Pagination from "../../ui/Pagination";
+import Menus from "../../ui/Menus";
 
 function BookingTable() {
   const [searchparams] = useSearchParams();
   let currentPage = searchparams.get("page") || 1;
-  
-  const {
-    data,
-    isLoading,
-  } = useQuery({
+
+  const { data, isLoading } = useQuery({
     queryKey: ["bookings", currentPage],
     queryFn: () => getBookings(currentPage),
   });
-  // console.log(data);
 
   const bookings = data?.data || [];
 
-  const results = data?.results || 0; 
+  const results = data?.results || 0;
 
   let filtered = [];
 
@@ -38,23 +35,25 @@ function BookingTable() {
 
   return (
     <div className="border border-grey-200 text-sm bg-grey-0 rounded-lg overflow-hidden mt-5">
-      <Table>
-        <Table.TableHead>
-          <th className="p-4 text-left">Cabin</th>
-          <th className="p-4 text-left">Guest</th>
-          <th className="p-4 text-left">Stay Duration</th>
-          <th className="p-4 text-left">Status</th>
-          <th className="p-4 text-left">Total Price</th>
-          <th className="p-4 text-left"></th>
-        </Table.TableHead>
-        <Table.TableBody
-          data={filtered}
-          render={(booking) => (
-            <BookingRow key={booking._id} booking={booking} />
-          )}
-        />
-      </Table>
-      <Pagination count={results} />
+      <Menus>
+        <Table>
+          <Table.TableHead>
+            <th className="p-4 text-left">Cabin</th>
+            <th className="p-4 text-left">Guest</th>
+            <th className="p-4 text-left">Stay Duration</th>
+            <th className="p-4 text-left">Status</th>
+            <th className="p-4 text-left">Total Price</th>
+            <th className="p-4 text-left"></th>
+          </Table.TableHead>
+          <Table.TableBody
+            data={filtered}
+            render={(booking) => (
+              <BookingRow key={booking._id} booking={booking} />
+            )}
+          />
+        </Table>
+        <Pagination count={results} />
+      </Menus>
     </div>
   );
 }

@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
 
 function useClickDetect(handleFn) {
-  const ref = useRef();
+  const ref = useRef(null);
 
   useEffect(
     function () {
       function handleClick(e) {
-        if (ref.current && ref.current.contains(e.target)) {
+        if (ref.current && !ref.current.contains(e.target)) {
           handleFn();
         }
       }

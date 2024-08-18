@@ -1,54 +1,68 @@
-import styled from "styled-components";
+import { useQuery } from "@tanstack/react-query";
 import BookingDataBox from "../../features/bookings/BookingDataBox";
-
-import Row from "../../ui/Row";
-import Heading from "../../ui/Heading";
-import ButtonGroup from "../../ui/ButtonGroup";
-import Button from "../../ui/Button";
-import ButtonText from "../../ui/ButtonText";
-
 import { useMoveBack } from "../../hooks/useMoveBack";
-
-const Box = styled.div`
-  /* Box */
-  background-color: var(--color-grey-0);
-  border: 1px solid var(--color-grey-100);
-  border-radius: var(--border-radius-md);
-  padding: 2.4rem 4rem;
-`;
+import { getBooking } from "../../services/apiBookings";
+import { useParams } from "react-router-dom";
+import Spinner from "../../ui/Spinner";
+import Checkbox from "../../ui/Checkbox";
 
 function CheckinBooking() {
+  const { id } = useParams();
+
+  let { data, isLoading } = useQuery({
+    queryKey: ["booking", id],
+    queryFn: () => getBooking(id),
+  });
+
+  let booking = data || {};
+
+  const status = booking.status;
+
   const moveBack = useMoveBack();
 
-  const booking = {};
-
-  const {
-    id: bookingId,
-    guests,
-    totalPrice,
-    numGuests,
-    hasBreakfast,
-    numNights,
-  } = booking;
+  const { id: bookingId } = booking;
 
   function handleCheckin() {}
 
+  if (isLoading) return <Spinner />;
+
   return (
-    <>
-      <Row type="horizontal">
-        <Heading as="h1">Check in booking #{bookingId}</Heading>
-        <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
-      </Row>
+    <div className=" text-xl">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-semibold">
+          Check in booking #{bookingId}
+        </h1>
+        <button
+          className="text-blue-600 hover:text-blue-800 "
+          onClick={moveBack}
+        >
+          &larr; Back
+        </button>
+      </div>
 
-      <BookingDataBox booking={booking} />
+      <div className="bg-gray-50  rounded-md p-6 flex flex-col gap-3">
+        <BookingDataBox booking={booking} />
+        <div className=" space-y-3">
+          <Checkbox>i paid the amount for the booking</Checkbox>
+          <Checkbox>i paid the amount for the booking</Checkbox>
+        </div>
+      </div>
 
-      <ButtonGroup>
-        <Button onClick={handleCheckin}>Check in booking #{bookingId}</Button>
-        <Button variation="secondary" onClick={moveBack}>
+      <div className="flex space-x-4 justify-end me-5">
+        <button
+          className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+          onClick={handleCheckin}
+        >
+          Check in booking #
+        </button>
+        <button
+          className="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300"
+          onClick={moveBack}
+        >
           Back
-        </Button>
-      </ButtonGroup>
-    </>
+        </button>
+      </div>
+    </div>
   );
 }
 

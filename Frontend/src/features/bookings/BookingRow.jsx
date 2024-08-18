@@ -5,6 +5,9 @@ import { formatDistanceFromNow } from "../../utils/helpers";
 // import EditBookingForm from "./EditBookingForm";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Tag from "../../ui/Tag";
+import Menus from "../../ui/Menus";
+import { HiEye } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 // import useDeleteBooking from "./useDeleteBooking";
 
 function BookingRow({
@@ -21,12 +24,13 @@ function BookingRow({
     cabin: { name: cabinName },
   },
 }) {
-
   const statusToTagName = {
     unConfirmed: "blue",
     "checked-in": "green",
     "checked-out": "silver",
   };
+
+  const navigate = useNavigate();
 
   // const { deleteBooking, isDeleting } = useDeleteBooking();
 
@@ -64,28 +68,39 @@ function BookingRow({
 
       <td className="p-4 flex gap-2">
         {/* Modal to edit booking */}
-        <Modal>
-          <Modal.Open>
-            <button className="border-2 px-3 py-2 rounded-md">Edit</button>
-          </Modal.Open>
-          <Modal.Window>
-            {/* <EditBookingForm bookingToEdit={booking} /> */}
-          </Modal.Window>
-        </Modal>
-
-        {/* Modal to delete booking */}
-        <Modal>
-          <Modal.Open>
-            <button className="border-2 px-3 py-2 rounded-md">Delete</button>
-          </Modal.Open>
-          <Modal.Window>
-            <ConfirmDelete
-              resourceName={`Booking ${bookingId}`}
-              // onConfirm={() => deleteBooking(bookingId)}
-              // disabled={isDeleting}
-            />
-          </Modal.Window>
-        </Modal>
+        <Menus.Menu>
+          <Menus.ToggleBtn id={bookingId} />
+          <Modal>
+            <Menus.MenuList id={bookingId}>
+              <Menus.MenuButton>
+                <button
+                  className=" px-3 py-2 rounded-md flex items-center gap-2"
+                  onClick={() => navigate(`/bookings/${bookingId}`)}
+                >
+                  <HiEye />
+                  view
+                </button>
+              </Menus.MenuButton>
+              {/* <Modal.Open opens="edit"></Modal.Open> */}
+              {/* Modal to delete booking */}
+              {/* <Modal.Open opens="delete">
+                <Menus.MenuButton>
+                  <button className=" px-3 py-2 rounded-md">Delete</button>
+                </Menus.MenuButton>
+              </Modal.Open> */}
+            </Menus.MenuList>
+            <Modal.Window>
+              {/* <EditBookingForm bookingToEdit={booking} /> */}
+            </Modal.Window>
+            <Modal.Window>
+              <ConfirmDelete
+                resourceName={`Booking ${bookingId}`}
+                // onConfirm={() => deleteBooking(bookingId)}
+                // disabled={isDeleting}
+              />
+            </Modal.Window>
+          </Modal>
+        </Menus.Menu>
       </td>
     </tr>
   );
