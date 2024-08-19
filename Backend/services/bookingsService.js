@@ -40,7 +40,7 @@ exports.createBookings = catchServiceError(async (bookingDetails) => {
   return newBooking;
 });
 
-exports.checkIn = catchServiceError(async (bookingId) => {
+exports.checkIn = catchServiceError(async ({ bookingId, data }) => {
   const booking = await bookingsModel.findById(bookingId);
 
   if (!booking) {
@@ -56,6 +56,15 @@ exports.checkIn = catchServiceError(async (bookingId) => {
   }
 
   booking.status = "checked-in";
+  
+  if (!booking.isPaid && !data?.isPaid) {
+    throw new Error("Booking must be paid before checking in");
+  }
+  if (!booking.isPaid) booking.isPaid = true;
+  if (!booking.hasBreakFast || data.hasBreakFast) {
+    booking.extraPrice = data.extraPrice;
+    booking.totalPrice = data.totalPrice;
+  }
   const checkedBooking = await booking.save();
 
   return checkedBooking;

@@ -6,13 +6,12 @@ function useEditCabin() {
   const queryClient = useQueryClient();
 
   const { mutate: editCabin, isLoading: isEditing } = useMutation({
-    mutationFn: ({ id, formData:data }) => {
-      console.log(id, data);
-      updateCabinService({ id, data });
+    mutationFn: ({ id, formData: data }) => {
+      return updateCabinService({ id, data });
     },
     onSuccess: () => {
-      toast.success("cabin update successfully");
-      queryClient.invalidateQueries("cabin");
+      toast.success("Cabin updated successfully");
+      queryClient.invalidateQueries(["cabin"]); // Invalidate the cabin query
     },
     onError: (err) => {
       toast.error(err.message);

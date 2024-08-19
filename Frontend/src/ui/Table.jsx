@@ -1,5 +1,5 @@
 function Table({ children }) {
-  return <table className="min-w-full bg-white">{children}</table>;
+  return <table className="min-w-full bg-grey-0">{children}</table>;
 }
 
 function TableHead({ children }) {

@@ -33,7 +33,10 @@ exports.createBookings = async (req, res, next) => {
 exports.checkIn = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const checkedBooking = await bookingsService.checkIn(id);
+    const checkedBooking = await bookingsService.checkIn({
+      bookingId: id,
+      data: req.body,
+    });
     res.status(200).send({
       status: "success",
       data: checkedBooking,

@@ -13,14 +13,13 @@ import { formatDistanceFromNow, formatCurrency } from "../../utils/helpers";
 // A purely presentational component
 function BookingDataBox({ booking }) {
   const {
-    _id: id,
     createdAt,
     startDate,
     endDate,
     numNights,
     numGuests,
     cabinPrice,
-    extrasPrice,
+    extraPrice,
     totalPrice,
     hasBreakfast,
     observations,
@@ -30,8 +29,8 @@ function BookingDataBox({ booking }) {
   } = booking;
 
   return (
-    <section className="bg-white border border-gray-100 rounded-md overflow-hidden text-lg mt-10 ">
-      <header className="bg-blue-600 text-indigo-100 p-8 flex justify-between items-center text-lg font-medium">
+    <section className="bg-grey-0 border border-grey-100 rounded-md overflow-hidden text-lg mt-10 ">
+      <header className="bg-customBlue-700 text-customIndigo-100 p-8 flex justify-between items-center text-lg font-medium">
         <div className="flex items-center gap-4 font-semibold text-xl">
           <HiOutlineHomeModern className="h-8 w-8" />
           <p>
@@ -50,8 +49,8 @@ function BookingDataBox({ booking }) {
       </header>
 
       <section className="p-8 pb-3 pt-10">
-        <div className="flex items-center gap-3 mb-6 text-gray-500">
-          <p className="font-medium text-gray-700">
+        <div className="flex items-center gap-3 mb-6 text-grey-500">
+          <p className="font-medium text-grey-700">
             {guestName} {numGuests > 1 ? `+ ${numGuests - 1} guests` : ""}
           </p>
           <span>&bull;</span>
@@ -83,7 +82,7 @@ function BookingDataBox({ booking }) {
             {formatCurrency(totalPrice)}
             {hasBreakfast &&
               ` (${formatCurrency(cabinPrice)} cabin + ${formatCurrency(
-                extrasPrice
+                extraPrice
               )} breakfast)`}
           </DataItem>
 
@@ -93,7 +92,7 @@ function BookingDataBox({ booking }) {
         </div>
       </section>
 
-      <footer className="p-8 pt-6 text-sm text-right text-gray-500">
+      <footer className="p-8 pt-6 text-sm text-right text-grey-500">
         <p>Booked {format(new Date(createdAt), "EEE, MMM dd yyyy, p")}</p>
       </footer>
     </section>

@@ -1,24 +1,19 @@
 import BookingDataBox from "./BookingDataBox";
 import { useMoveBack } from "../../hooks/useMoveBack";
-import { useQuery } from "@tanstack/react-query";
-import { getBooking } from "../../services/apiBookings";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Spinner from "../../ui/Spinner";
+import useBooking from "./useBooking";
+import { HiArrowUpOnSquare } from "react-icons/hi2";
+import useCheckOut from "../check-in-out/useCheckOut";
 
 function BookingDetail() {
   const { id } = useParams();
 
-  let { data, isLoading } = useQuery({
-    queryKey: ["booking",id],
-    queryFn: () => getBooking(id),
-  });
-
-  let booking = data || {};
+  const { booking, bookingLoading } = useBooking();
 
   const navigate = useNavigate();
 
-  const status=booking.status
+  const status = booking.status;
 
   const moveBack = useMoveBack();
 
@@ -28,7 +23,9 @@ function BookingDetail() {
     "checked-out": "bg-gray-100 text-gray-800",
   };
 
-  if (isLoading) return <Spinner />;
+  const { checkOutFn, isCheckingOut } = useCheckOut(null, id);
+
+  if (bookingLoading) return <Spinner />;
 
   return (
     <>
@@ -43,7 +40,7 @@ function BookingDetail() {
         </div>
         <button
           onClick={moveBack}
-          className="text-blue-600 hover:underline focus:outline-none"
+          className="text- customBlue-600 hover:underline focus:outline-none"
         >
           &larr; Back
         </button>
@@ -52,9 +49,22 @@ function BookingDetail() {
       <BookingDataBox booking={booking} />
 
       <div className="mt-4 flex justify-end gap-4 text-lg">
-      <button onClick={() => navigate(`/bookings/check-in/${id}`)}>
-        Check-in
-      </button>
+        {status == "unConfirmed" && (
+          <button
+            onClick={() => navigate(`/bookings/check-in/${id}`)}
+            className="bg-customBlue-700 text-white px-4 py-2 rounded-md hover:bg-blue-700 mt-3"
+          >
+            Check-in
+          </button>
+        )}
+        {status == "checked-in" && (
+          <button
+            className=" bg-customBlue-700 text-white px-4 py-2 rounded-md hover:bg-blue-700 mt-3"
+            onClick={() => checkOutFn(id)}
+          >
+            checkOut
+          </button>
+        )}
       </div>
     </>
   );

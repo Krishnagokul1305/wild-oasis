@@ -9,11 +9,11 @@ function useDeleteCabin() {
     mutationFn: (id) => deleteCabinService(id),
     onSuccess: () => {
       toast.success("Cabin deleted successfully");
-      queryClient.invalidateQueries({
-        queryKey: ["cabin"],
-      });
+      queryClient.invalidateQueries(["cabin"]); // Use consistent query key
     },
-    onError: (err) => toast.error(err),
+    onError: (err) => {
+      toast.error(err.message);
+    },
   });
 
   return { deleteCabin, isDeleting };

@@ -8,12 +8,11 @@ function useEditSettings() {
 
   const { mutate: updateSettings, isLoading: isEditing } = useMutation({
     mutationFn: (data) => {
-      console.log(data);
       updateSettingsService(data);
     },
     onSuccess: () => {
       toast.success("settings Updated successfully");
-      queryClient.invalidateQueries("settings");
+      queryClient.invalidateQueries(["settings"]);
     },
     onError: (err) => {
       toast.error(err.message);

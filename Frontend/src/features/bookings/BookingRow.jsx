@@ -7,7 +7,14 @@ import ConfirmDelete from "../../ui/ConfirmDelete";
 import Tag from "../../ui/Tag";
 import Menus from "../../ui/Menus";
 import { HiEye } from "react-icons/hi";
+import {
+  HiArrowDownOnSquare,
+  HiArrowUpOnSquare,
+  HiTrash,
+} from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
+import useCheckOut from "../check-in-out/useCheckOut";
+import useDeleteBooking from "./useDeleteBooking";
 // import useDeleteBooking from "./useDeleteBooking";
 
 function BookingRow({
@@ -23,6 +30,7 @@ function BookingRow({
     user: { fullName: guestName, email },
     cabin: { name: cabinName },
   },
+  currentPage
 }) {
   const statusToTagName = {
     unConfirmed: "blue",
@@ -32,16 +40,18 @@ function BookingRow({
 
   const navigate = useNavigate();
 
-  // const { deleteBooking, isDeleting } = useDeleteBooking();
+  const { checkOutFn, isCheckingOut } = useCheckOut(currentPage,bookingId);
+
+  const { deleteFn, isDeleting } = useDeleteBooking();
 
   return (
     <tr className="border-b border-grey-100 text-base px-3">
-      <td className="p-4 font-semibold text-gray-600">{cabinName}</td>
+      <td className="p-4 font-semibold text-grey-600">{cabinName}</td>
 
       <td className="p-4">
         <div className="flex flex-col gap-0.2">
           <span className="font-medium">{guestName}</span>
-          <span className="text-gray-500 text-sm">{email}</span>
+          <span className="text-grey-500 text-sm">{email}</span>
         </div>
       </td>
 
@@ -81,23 +91,37 @@ function BookingRow({
                   view
                 </button>
               </Menus.MenuButton>
-              {/* <Modal.Open opens="edit"></Modal.Open> */}
-              {/* Modal to delete booking */}
-              {/* <Modal.Open opens="delete">
-                <Menus.MenuButton>
-                  <button className=" px-3 py-2 rounded-md">Delete</button>
+              {status == "unConfirmed" && (
+                <Menus.MenuButton
+                  onClick={() => navigate(`/bookings/check-in/${bookingId}`)}
+                >
+                  <button className=" px-3 py-2 rounded-md flex items-center gap-2">
+                    <HiArrowDownOnSquare />
+                    checkIn
+                  </button>
                 </Menus.MenuButton>
-              </Modal.Open> */}
+              )}
+              {status == "checked-in" && (
+                <Menus.MenuButton onClick={() => checkOutFn(bookingId)}>
+                  <button className=" px-3 py-2 rounded-md flex items-center gap-2">
+                    <HiArrowUpOnSquare />
+                    checkOut
+                  </button>
+                </Menus.MenuButton>
+              )}
+              <Menus.MenuButton>
+                <button
+                  className=" px-3 py-2 rounded-md flex items-center gap-2"
+                  onClick={() => deleteFn(bookingId)}
+                >
+                  <HiTrash />
+                  Delete
+                </button>
+              </Menus.MenuButton>
             </Menus.MenuList>
+            <Modal.Window></Modal.Window>
             <Modal.Window>
-              {/* <EditBookingForm bookingToEdit={booking} /> */}
-            </Modal.Window>
-            <Modal.Window>
-              <ConfirmDelete
-                resourceName={`Booking ${bookingId}`}
-                // onConfirm={() => deleteBooking(bookingId)}
-                // disabled={isDeleting}
-              />
+              <ConfirmDelete resourceName={`Booking ${bookingId}`} />
             </Modal.Window>
           </Modal>
         </Menus.Menu>

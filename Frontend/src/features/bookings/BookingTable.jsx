@@ -34,7 +34,7 @@ function BookingTable() {
   if (isLoading) return <Spinner />;
 
   return (
-    <div className="border border-grey-200 text-sm bg-grey-0 rounded-lg overflow-hidden mt-5">
+    <div className="border border-grey-200 text-sm bg-grey-0 rounded-lg  mt-5">
       <Menus>
         <Table>
           <Table.TableHead>
@@ -48,7 +48,11 @@ function BookingTable() {
           <Table.TableBody
             data={filtered}
             render={(booking) => (
-              <BookingRow key={booking._id} booking={booking} />
+              <BookingRow
+                key={booking._id}
+                booking={booking}
+                currentPage={currentPage}
+              />
             )}
           />
         </Table>

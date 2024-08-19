@@ -1,15 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
-import { getSettings } from "../../services/apiSettings";
 import Spinner from "../../ui/Spinner";
 import { useForm } from "react-hook-form";
 import useEditSettings from "./useEditSettings";
+import useSettings from "./useSettings";
 import { useEffect } from "react";
 
 function UpdateSettingsForm() {
-  const { isLoading, data: settings } = useQuery({
-    queryKey: ["settings"],
-    queryFn: getSettings,
-  });
+ 
+
+  const { data:settings, settingLoading } = useSettings();
 
   const { isEditing, updateSettings } = useEditSettings();
 
@@ -32,7 +30,7 @@ function UpdateSettingsForm() {
     });
   }
 
-  if (isLoading) return <Spinner />;
+  if (settingLoading) return <Spinner />;
 
   return (
     <form

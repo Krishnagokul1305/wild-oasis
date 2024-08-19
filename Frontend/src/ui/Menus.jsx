@@ -46,7 +46,7 @@ function MenuList({ id, children }) {
 
   return (
     <ul
-      className="absolute right-0 bottom-12 mt-2 bg-gray-50 shadow-md rounded-md py-2 px-3"
+      className="absolute right-0 bottom-12 mt-2 bg-grey-50 shadow-md rounded-md py-2 px-3 z-50 min-w-[150px]"
       ref={ref}
     >
       {children}

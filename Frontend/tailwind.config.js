@@ -29,7 +29,7 @@ export default {
           900: "#111827",
         },
         // Additional Colors
-        blue: {
+        customBlue: {
           100: "#e0f2fe",
           700: "#0369a1",
         },
@@ -45,7 +45,7 @@ export default {
           100: "#e5e7eb",
           700: "#374151",
         },
-        indigo: {
+        customIndigo: {
           100: "#e0e7ff",
           700: "#4338ca",
         },
