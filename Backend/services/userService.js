@@ -2,6 +2,7 @@ const userModel = require("../models/userModel");
 const catchServiceError = require("../utils/asyncServiceErrorHandler");
 const ApiFeatures = require("../utils/ApiFeatures");
 const validator = require("validator");
+const AppError = require("../utils/AppError"); // Ensure you have this import
 
 exports.getAllUsers = catchServiceError(async (queryObj) => {
   let query = {};
@@ -21,40 +22,49 @@ exports.getAllUsers = catchServiceError(async (queryObj) => {
 
 exports.createUsers = catchServiceError(async (userData) => {
   const { fullName, password, email, confirmPassword } = userData;
+
   if (!fullName) {
-    throw new Error("fullName must be filled");
+    throw new AppError("Full name must be filled", 400);
   }
   if (!password) {
-    throw new Error("password must be filled");
+    throw new AppError("Password must be filled", 400);
   }
-  if (!email && validator.isEmail(email)) {
-    throw new Error("email must be filled");
+  if (!email) {
+    throw new AppError("Email must be filled", 400);
   }
   if (!validator.isEmail(email)) {
-    throw new Error("Invalid email");
+    throw new AppError("Invalid email format", 400);
   }
   if (!confirmPassword) {
-    throw new Error("confirmPassword must be filled");
+    throw new AppError("Confirm password must be filled", 400);
   }
-  const newUser = await userModel.create(userData);
 
+  const newUser = await userModel.create(userData);
   return newUser;
 });
 
 exports.updateUserDetails = catchServiceError(async ({ id, updateData }) => {
   const updatedUser = await userModel.findByIdAndUpdate(id, updateData, {
     new: true,
+    runValidators: true,
   });
+
+  if (!updatedUser) {
+    throw new AppError("No user found with the provided id", 404);
+  }
+
   return updatedUser;
 });
 
 exports.updateUserPassword = catchServiceError(
   async ({ user, newPassword, currentPassword, confirmPassword }) => {
     if (!(await user.isValidPassword(currentPassword, user.password))) {
-      throw new Error("Invalid currentPassword");
+      throw new AppError("Invalid current password", 400);
     }
+
     user.password = newPassword;
     user.confirmPassword = confirmPassword;
+
     const updatedUser = await user.save();
     return updatedUser;
   }
@@ -62,8 +72,10 @@ exports.updateUserPassword = catchServiceError(
 
 exports.getUserById = catchServiceError(async (id) => {
   const user = await userModel.findById(id);
+
   if (!user) {
-    throw new Error("no user found");
+    throw new AppError("No user found with the provided id", 404);
   }
+
   return user;
 });

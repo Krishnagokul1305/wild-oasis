@@ -3,7 +3,6 @@ import { useMoveBack } from "../../hooks/useMoveBack";
 import { useNavigate, useParams } from "react-router-dom";
 import Spinner from "../../ui/Spinner";
 import useBooking from "./useBooking";
-import { HiArrowUpOnSquare } from "react-icons/hi2";
 import useCheckOut from "../check-in-out/useCheckOut";
 
 function BookingDetail() {
@@ -23,7 +22,7 @@ function BookingDetail() {
     "checked-out": "bg-gray-100 text-gray-800",
   };
 
-  const { checkOutFn, isCheckingOut } = useCheckOut(null, id);
+  const { checkOutFn } = useCheckOut(null, id);
 
   if (bookingLoading) return <Spinner />;
 

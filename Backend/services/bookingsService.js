@@ -3,6 +3,7 @@ const bookingsModel = require("../models/bookingsModel");
 const catchServiceError = require("../utils/asyncServiceErrorHandler");
 const { getSettings } = require("./settingsService");
 const ApiFeatures = require("../utils/ApiFeatures");
+const AppError = require("../utils/AppError"); // Ensure you have this import
 
 exports.getAllBookings = catchServiceError(async (queryObj) => {
   let query = {};
@@ -33,7 +34,7 @@ exports.getAllBookings = catchServiceError(async (queryObj) => {
 
 exports.createBookings = catchServiceError(async (bookingDetails) => {
   if (!(await cabinModel.findById(bookingDetails.cabin))) {
-    throw new Error("Invalid cabin Id");
+    throw new AppError("Invalid cabin Id", 400);
   }
 
   const newBooking = bookingsModel.create(bookingDetails);
@@ -44,21 +45,21 @@ exports.checkIn = catchServiceError(async ({ bookingId, data }) => {
   const booking = await bookingsModel.findById(bookingId);
 
   if (!booking) {
-    throw new Error("Invalid booking Id");
+    throw new AppError("Invalid booking Id", 404);
   }
 
   if (booking.status == "checked-in") {
-    throw new Error("Invalid Operation : Booking already checked-in");
+    throw new AppError("Invalid Operation: Booking already checked-in", 400);
   }
 
   if (booking.status == "checked-out") {
-    throw new Error(" Booking is not eligible for check-in ");
+    throw new AppError("Booking is not eligible for check-in", 400);
   }
 
   booking.status = "checked-in";
-  
+
   if (!booking.isPaid && !data?.isPaid) {
-    throw new Error("Booking must be paid before checking in");
+    throw new AppError("Booking must be paid before checking in", 400);
   }
   if (!booking.isPaid) booking.isPaid = true;
   if (!booking.hasBreakFast || data.hasBreakFast) {
@@ -74,15 +75,15 @@ exports.checkOut = catchServiceError(async (bookingId) => {
   const booking = await bookingsModel.findById(bookingId);
 
   if (!booking) {
-    throw new Error("Invalid booking Id");
+    throw new AppError("Invalid booking Id", 404);
   }
 
   if (booking.status == "unconfirmed") {
-    throw new Error(" Booking is not eligible for check-out");
+    throw new AppError("Booking is not eligible for check-out", 400);
   }
 
   if (booking.status == "checked-out") {
-    throw new Error(" Invalid Operation : Booking already checked-out ");
+    throw new AppError("Invalid Operation: Booking already checked-out", 400);
   }
 
   booking.status = "checked-out";
@@ -104,7 +105,7 @@ exports.getBookingById = catchServiceError(async (bookingId) => {
     });
 
   if (!booking) {
-    throw new Error("Invalid Id : no booking found for the id");
+    throw new AppError("Invalid Id: no booking found for the id", 404);
   }
   return booking;
 });
@@ -133,12 +134,10 @@ exports.getTodayActivities = catchServiceError(async () => {
   return todayBookings;
 });
 
-exports;
-
 exports.updateBooking = catchServiceError(
   async ({ id: bookingId, updateData }) => {
     if (updateData.status) {
-      throw new Error("Invalid Operation : status updating");
+      throw new AppError("Invalid Operation: status updating", 400);
     }
 
     const updatedBooking = await bookingsModel.findByIdAndUpdate(
@@ -151,7 +150,7 @@ exports.updateBooking = catchServiceError(
     );
 
     if (!updatedBooking) {
-      throw new Error("Invalid Id : no booking found for the id");
+      throw new AppError("Invalid Id: no booking found for the id", 404);
     }
 
     return updatedBooking;

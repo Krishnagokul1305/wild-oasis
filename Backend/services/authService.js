@@ -2,43 +2,46 @@ const userModel = require("../models/userModel");
 const catchServiceError = require("../utils/asyncServiceErrorHandler");
 const validator = require("validator");
 const crypto = require("crypto");
+const AppError = require("../utils/AppError"); // Ensure you have this import
 
 exports.signup = catchServiceError(async function (userData) {
   const { fullName, password, email, confirmPassword } = userData;
+
   if (!fullName) {
-    throw new Error("fullName must be filled");
+    throw new AppError("Full name must be filled", 400);
   }
   if (!password) {
-    throw new Error("password must be filled");
+    throw new AppError("Password must be filled", 400);
   }
-  if (!email && validator.isEmail(email)) {
-    throw new Error("email must be filled");
+  if (!email) {
+    throw new AppError("Email must be filled", 400);
   }
   if (!validator.isEmail(email)) {
-    throw new Error("Invalid email");
+    throw new AppError("Invalid email format", 400);
   }
   if (!confirmPassword) {
-    throw new Error("confirmPassword must be filled");
+    throw new AppError("Confirm password must be filled", 400);
   }
-  const newUser = await userModel.create(userData);
 
+  const newUser = await userModel.create(userData);
   return newUser;
 });
 
 exports.login = catchServiceError(async function (userData) {
   const { email, password } = userData;
+
   if (!email) {
-    throw new Error("email must be filled");
+    throw new AppError("Email must be filled", 400);
   }
   if (!password) {
-    throw new Error("password must be filled");
+    throw new AppError("Password must be filled", 400);
   }
 
   const user = await userModel.findOne({ email }).select("+password");
 
-  //   check if the user exists and the password is same as the password in db
+  // Check if the user exists and the password matches the one in the database
   if (!user || !(await user.isValidPassword(password, user.password))) {
-    throw new Error("Invaild email or password");
+    throw new AppError("Invalid email or password", 401);
   }
 
   return user;
@@ -46,12 +49,13 @@ exports.login = catchServiceError(async function (userData) {
 
 exports.forgotPassword = catchServiceError(async function (email) {
   if (!email) {
-    throw new Error("please provide email");
+    throw new AppError("Please provide an email", 400);
   }
+
   const user = await userModel.findOne({ email });
 
   if (!user) {
-    throw new Error("no user found");
+    throw new AppError("No user found with that email", 404);
   }
 
   const resetToken = crypto.randomBytes(32).toString("hex");
@@ -62,7 +66,7 @@ exports.forgotPassword = catchServiceError(async function (email) {
     .digest("hex");
 
   user.passwordResetToken = encryptedToken;
-  user.passwordExpireTime = Date.now() + 10 * 60 * 1000;
+  user.passwordExpireTime = Date.now() + 10 * 60 * 1000; // Token valid for 10 minutes
 
   await user.save({ validateBeforeSave: false });
 
@@ -74,24 +78,20 @@ exports.resetPassword = catchServiceError(async function ({
   confirmPassword,
   newPassword,
 }) {
-  console.log(resetToken, confirmPassword, newPassword);
-  // get the token that is sent as a param in the url
   if (!resetToken) {
-    throw new Error("please provide a reset token");
+    throw new AppError("Please provide a reset token", 400);
   }
-  // the token is encrypted in the db so encrypt the token
+
   const encryptedToken = crypto
     .createHash("sha256")
     .update(resetToken)
     .digest("hex");
 
-  // search for the user with the token in the db
   const user = await userModel.findOne({ passwordResetToken: encryptedToken });
-  if (!user) {
-    throw new Error("user not found");
-  }
 
-  // if user exists save the document with new password with save method to enable validation
+  if (!user) {
+    throw new AppError("User not found", 404);
+  }
 
   user.password = newPassword;
   user.confirmPassword = confirmPassword;

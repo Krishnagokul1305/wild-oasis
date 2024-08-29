@@ -10,8 +10,10 @@ function useCheckIn() {
       console.log(id, bookingData);
       checkIn({ id, bookingData });
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log(data);
       toast.success("Booking checked in successfully");
+      queryClient.invalidateQueries(["bookings"]);
       queryClient.invalidateQueries(["booking"]);
     },
     onError: (err) => {
@@ -22,4 +24,4 @@ function useCheckIn() {
   return { checkInFn, isChecking };
 }
 
-export default useCheckIn
+export default useCheckIn;

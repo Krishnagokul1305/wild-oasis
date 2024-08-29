@@ -1,9 +1,4 @@
 import { useForm } from "react-hook-form";
-import Button from "../../ui/Button";
-import Form from "../../ui/Form";
-import FormRow from "../../ui/FormRow";
-import Input from "../../ui/Input";
-
 import { useUpdateUser } from "./useUpdateUser";
 
 function UpdatePasswordForm() {
@@ -17,12 +12,15 @@ function UpdatePasswordForm() {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormRow
-        label="Password (min 8 characters)"
-        error={errors?.password?.message}
-      >
-        <Input
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <div className="flex flex-col">
+        <label
+          htmlFor="password"
+          className="mb-2 text-sm font-medium text-gray-700"
+        >
+          Password (min 8 characters)
+        </label>
+        <input
           type="password"
           id="password"
           autoComplete="current-password"
@@ -34,14 +32,27 @@ function UpdatePasswordForm() {
               message: "Password needs a minimum of 8 characters",
             },
           })}
+          className={`p-2 border ${
+            errors?.password
+              ? "border-red-500"
+              : "border-gray-300"
+          } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
         />
-      </FormRow>
+        {errors?.password && (
+          <p className="mt-1 text-xs text-red-500">
+            {errors.password.message}
+          </p>
+        )}
+      </div>
 
-      <FormRow
-        label="Confirm password"
-        error={errors?.passwordConfirm?.message}
-      >
-        <Input
+      <div className="flex flex-col">
+        <label
+          htmlFor="passwordConfirm"
+          className="mb-2 text-sm font-medium text-gray-700"
+        >
+          Confirm password
+        </label>
+        <input
           type="password"
           autoComplete="new-password"
           id="passwordConfirm"
@@ -51,15 +62,37 @@ function UpdatePasswordForm() {
             validate: (value) =>
               getValues().password === value || "Passwords need to match",
           })}
+          className={`p-2 border ${
+            errors?.passwordConfirm
+              ? "border-red-500"
+              : "border-gray-300"
+          } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
         />
-      </FormRow>
-      <FormRow>
-        <Button onClick={reset} type="reset" variation="secondary">
+        {errors?.passwordConfirm && (
+          <p className="mt-1 text-xs text-red-500">
+            {errors.passwordConfirm.message}
+          </p>
+        )}
+      </div>
+
+      <div className="flex space-x-4">
+        <button
+          onClick={reset}
+          type="reset"
+          disabled={isUpdating}
+          className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
+        >
           Cancel
-        </Button>
-        <Button disabled={isUpdating}>Update password</Button>
-      </FormRow>
-    </Form>
+        </button>
+        <button
+          type="submit"
+          disabled={isUpdating}
+          className="py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          Update password
+        </button>
+      </div>
+    </form>
   );
 }
 

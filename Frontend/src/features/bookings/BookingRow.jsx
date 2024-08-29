@@ -30,7 +30,7 @@ function BookingRow({
     user: { fullName: guestName, email },
     cabin: { name: cabinName },
   },
-  currentPage
+  currentPage,
 }) {
   const statusToTagName = {
     unConfirmed: "blue",
@@ -40,9 +40,9 @@ function BookingRow({
 
   const navigate = useNavigate();
 
-  const { checkOutFn, isCheckingOut } = useCheckOut(currentPage,bookingId);
+  const { checkOutFn } = useCheckOut(currentPage, bookingId);
 
-  const { deleteFn, isDeleting } = useDeleteBooking();
+  const { deleteFn } = useDeleteBooking();
 
   return (
     <tr className="border-b border-grey-100 text-base px-3">

@@ -1,45 +1,45 @@
 const userModel = require("../models/userModel");
 const { decodeToken } = require("../utils/jwtProvider");
+const AppError = require("../utils/AppError");
+const controllerError = require("../utils/asyncControllerError");
 
-exports.isAuthenticated = async (req, res, next) => {
-  // check if there is token
-  if (
-    !req.headers.authorization &&
-    !req.headers?.authorization?.split(" ")[1]
-  ) {
-    return res
-      .status(400)
-      .send({ error: "please provide authorization token" });
+exports.isAuthenticated = controllerError(async (req, res, next) => {
+  // Check if there is a token
+  if (!req.headers.authorization || !req.headers.authorization.split(" ")[1]) {
+    throw new AppError("Please provide an authorization token", 400);
   }
 
-  // verify the token
+  // Verify the token
   const token = req.headers.authorization.split(" ")[1];
   const decoded = decodeToken(token);
 
-  // get the user from the db
-  const user = await userModel.findById(decoded.id).select("+password");
-  if (!user) {
-    return res.status(404).send({ error: "no user found" });
+  if (!decoded) {
+    throw new AppError("Invalid token", 400);
   }
 
-  // check if the user changed the password after token created
+  // Get the user from the database
+  const user = await userModel.findById(decoded.id).select("+password");
+  if (!user) {
+    throw new AppError("No user found with this token", 404);
+  }
+
+  // Check if the user changed the password after the token was created
   if (user.hasChangedPassword(decoded.iat)) {
-    return res.status(404).send({
-      error: "user recently changed the password Please login again !",
-    });
+    throw new AppError(
+      "User recently changed the password. Please login again!",
+      401
+    );
   }
 
   req.user = user;
   next();
-};
+});
 
 exports.isAuthorized =
   (...authRoles) =>
-  async (req, res, next) => {
+  (req, res, next) => {
     if (!authRoles.includes(req.user.role)) {
-      return res.status(401).send({
-        error: "you are not authorized to access this route",
-      });
+      throw new AppError("You are not authorized to access this route", 403);
     }
 
     next();

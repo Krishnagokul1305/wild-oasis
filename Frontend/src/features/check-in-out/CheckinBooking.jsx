@@ -24,7 +24,7 @@ function CheckinBooking() {
     booking.hasBreakFast ? true : false
   );
   const moveBack = useMoveBack();
-
+  console.log(booking);
   function handleCheckin() {
     const newData = {
       isPaid: confirmPayment,
@@ -51,38 +51,41 @@ function CheckinBooking() {
 
       <div className="bg-gray-50  rounded-md p-6 flex flex-col gap-3">
         <BookingDataBox booking={booking} />
-        <div className=" space-y-3">
-          {!booking.hasBreakFast && (
-            <Checkbox
-              id="breakFast"
-              checked={addBreakFast}
-              disabled={addBreakFast}
-              onChange={() => {
-                setAddBreakFast((hasBreakFast) => !hasBreakFast);
-                setConfirmPayment(false);
-              }}
-            >
-              Want to add breakfast for{" "}
-              {formatCurrency(settings.breakFastPrice)}?
-            </Checkbox>
-          )}
+        {booking.status == "unConfirmed" && (
+          <div className=" space-y-3">
+            {!booking.hasBreakFast && (
+              <Checkbox
+                id="breakFast"
+                checked={addBreakFast}
+                disabled={addBreakFast}
+                onChange={() => {
+                  setAddBreakFast((hasBreakFast) => !hasBreakFast);
+                  setConfirmPayment(false);
+                }}
+              >
+                Want to add breakfast for{" "}
+                {formatCurrency(settings.breakFastPrice)}?
+              </Checkbox>
+            )}
 
-          <Checkbox
-            id="confirm"
-            checked={confirmPayment}
-            disabled={confirmPayment}
-            onChange={() => setConfirmPayment((paidStatus) => !paidStatus)}
-          >
-            I confirm that {booking.user.fullName} has paid the total amount of{" "}
-            {!addBreakFast
-              ? formatCurrency(booking.totalPrice)
-              : `${formatCurrency(
-                  booking.totalPrice + settings.breakFastPrice
-                )} (${formatCurrency(booking.totalPrice)} + ${formatCurrency(
-                  settings.breakFastPrice
-                )})`}
-          </Checkbox>
-        </div>
+            <Checkbox
+              id="confirm"
+              checked={confirmPayment}
+              disabled={confirmPayment}
+              onChange={() => setConfirmPayment((paidStatus) => !paidStatus)}
+            >
+              I confirm that {booking.user.fullName} has paid the total amount
+              of{" "}
+              {!addBreakFast
+                ? formatCurrency(booking.totalPrice)
+                : `${formatCurrency(
+                    booking.totalPrice + settings.breakFastPrice
+                  )} (${formatCurrency(booking.totalPrice)} + ${formatCurrency(
+                    settings.breakFastPrice
+                  )})`}
+            </Checkbox>
+          </div>
+        )}
       </div>
 
       <div className="flex space-x-4 justify-end me-5">
