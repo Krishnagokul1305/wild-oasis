@@ -11,6 +11,7 @@ exports.isAuthenticated = controllerError(async (req, res, next) => {
 
   // Verify the token
   const token = req.headers.authorization.split(" ")[1];
+  console.log(token)
   const decoded = decodeToken(token);
 
   if (!decoded) {

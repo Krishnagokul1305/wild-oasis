@@ -1,8 +1,8 @@
 function Tag({ type, children }) {
 
   const colorClasses = {
-    blue: "text-blue-700 bg-blue-100",
-    green: "text-green-700 bg-green-100",
+    blue: "text-blue-700 bg-blue-300",
+    green: "text-green-700 bg-green-300",
     silver: "text-gray-700 bg-gray-100",
   };
 

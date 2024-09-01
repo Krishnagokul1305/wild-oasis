@@ -1,10 +1,16 @@
-function UserAvatar({ avatarUrl, userName }) {
+import { USER_IMG } from "../../../config/config";
+import { defaultUser } from "../../assets/img/index";
+import { getUserData } from "../../services/apiUsers";
+
+function UserAvatar({ userName = "DefaultUser" }) {
+  const user = getUserData();
+  console.log(user);
   return (
-    <div className="flex gap-4 items-center font-medium text-gray-600 text-lg">
+    <div className="flex gap-3 items-center font-medium text-gray-500 text-lg">
       <img
-        src={avatarUrl}
-        alt={userName}
-        className="block w-16 h-16 object-cover object-center rounded-full outline outline-2 outline-gray-100"
+        src={`${USER_IMG}/${user?.avatar}` || defaultUser}
+        alt={user?.fullName || userName}
+        className="block h-[36px] w-[36px] object-cover object-center rounded-full  bg-grey-100"
       />
       <span>{userName}</span>
     </div>

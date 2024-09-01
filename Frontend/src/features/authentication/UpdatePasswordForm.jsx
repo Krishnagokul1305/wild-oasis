@@ -1,22 +1,25 @@
 import { useForm } from "react-hook-form";
-import { useUpdateUser } from "./useUpdateUser";
+import useUpdatePassword from "./useUpdateUser";
 
 function UpdatePasswordForm() {
   const { register, handleSubmit, formState, getValues, reset } = useForm();
   const { errors } = formState;
 
-  const { updateUser, isUpdating } = useUpdateUser();
+  const { updateUser, isUpdating } = useUpdatePassword();
 
-  function onSubmit({ password }) {
-    updateUser({ password }, { onSuccess: reset });
+  function onSubmit(data) {
+    updateUser(data);
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div className="flex flex-col">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-6 bg-grey-0 px-5 py-8 text-grey-400"
+    >
+      <div className="flex items-center ">
         <label
           htmlFor="password"
-          className="mb-2 text-sm font-medium text-gray-700"
+          className="mb-2 text-base font-medium  basis-[25%]"
         >
           Password (min 8 characters)
         </label>
@@ -24,8 +27,8 @@ function UpdatePasswordForm() {
           type="password"
           id="password"
           autoComplete="current-password"
-          disabled={isUpdating}
-          {...register("password", {
+          // disabled={isUpdating}
+          {...register("newPassword", {
             required: "This field is required",
             minLength: {
               value: 8,
@@ -34,21 +37,19 @@ function UpdatePasswordForm() {
           })}
           className={`p-2 border ${
             errors?.password
-              ? "border-red-500"
-              : "border-gray-300"
-          } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+              ? "border-red-500 focus:ring-red-500"
+              : "border-grey-200 focus:ring-blue-500"
+          } rounded-md focus:outline-none focus:ring-2  basis-[40%] bg-grey-100`}
         />
         {errors?.password && (
-          <p className="mt-1 text-xs text-red-500">
-            {errors.password.message}
-          </p>
+          <p className="mt-1 ms-3 text-red-500">{errors.password.message}</p>
         )}
       </div>
 
-      <div className="flex flex-col">
+      <div className="flex items-center">
         <label
           htmlFor="passwordConfirm"
-          className="mb-2 text-sm font-medium text-gray-700"
+          className="mb-2 text-base font-medium basis-[25%]"
         >
           Confirm password
         </label>
@@ -57,30 +58,30 @@ function UpdatePasswordForm() {
           autoComplete="new-password"
           id="passwordConfirm"
           disabled={isUpdating}
-          {...register("passwordConfirm", {
+          {...register("confirmPassword", {
             required: "This field is required",
             validate: (value) =>
-              getValues().password === value || "Passwords need to match",
+              getValues().newPassword === value || "Passwords need to match",
           })}
           className={`p-2 border ${
-            errors?.passwordConfirm
-              ? "border-red-500"
-              : "border-gray-300"
-          } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            errors?.confirmPassword
+              ? "border-red-500 focus:ring-red-500"
+              : "border-grey-200 focus:ring-blue-500"
+          } rounded-md focus:outline-none focus:ring-2  basis-[40%] bg-grey-100`}
         />
-        {errors?.passwordConfirm && (
-          <p className="mt-1 text-xs text-red-500">
-            {errors.passwordConfirm.message}
+        {errors?.confirmPassword && (
+          <p className="mt-1 ms-3 text-red-500">
+            {errors.confirmPassword.message}
           </p>
         )}
       </div>
 
-      <div className="flex space-x-4">
+      <div className="flex space-x-4 justify-end">
         <button
           onClick={reset}
           type="reset"
           disabled={isUpdating}
-          className="py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
+          className="py-2 px-4 border-2 border-grey-400 text-grey-400 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-200"
         >
           Cancel
         </button>

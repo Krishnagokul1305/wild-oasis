@@ -8,7 +8,7 @@ function AppLayout() {
       <SideNav />
       <main className="flex flex-col w-[80%] h-full">
         <Header />
-        <section className="flex-1 py-8 px-10 overflow-auto bg-grey-50">
+        <section className="flex-1 py-8 px-10 overflow-auto bg-grey-100">
           <Outlet />
         </section>
       </main>

@@ -30,7 +30,7 @@ function BookingDetail() {
     <>
       <div className="flex justify-between items-center text-lg">
         <div className="flex gap-6 items-center">
-          <h1 className="text-2xl font-semibold">Booking #X</h1>
+          <h1 className="text-2xl font-semibold text-grey-400">Booking #X</h1>
           <span
             className={`px-3 py-1 rounded-full text-sm font-medium ${statusToTagColor[status]}`}
           >
@@ -39,7 +39,7 @@ function BookingDetail() {
         </div>
         <button
           onClick={moveBack}
-          className="text- customBlue-600 hover:underline focus:outline-none"
+          className="text-grey-400 customBlue-600 hover:underline focus:outline-none"
         >
           &larr; Back
         </button>

@@ -48,7 +48,7 @@ function BookingDataBox({ booking }) {
         </p>
       </header>
 
-      <section className="p-8 pb-3 pt-10">
+      <section className="p-8 pb-3 pt-10 text-grey-400">
         <div className="flex items-center gap-3 mb-6 text-grey-500">
           <p className="font-medium text-grey-700">
             {guestName} {numGuests > 1 ? `+ ${numGuests - 1} guests` : ""}
@@ -74,7 +74,7 @@ function BookingDataBox({ booking }) {
         <div
           className={`flex justify-between items-center p-6 rounded-sm mt-6 ${
             isPaid
-              ? "bg-green-100 text-green-700"
+              ? "bg-green-300 text-green-700"
               : "bg-yellow-100 text-yellow-700"
           }`}
         >

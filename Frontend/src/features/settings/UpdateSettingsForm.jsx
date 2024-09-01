@@ -34,7 +34,7 @@ function UpdateSettingsForm() {
 
   return (
     <form
-      className="space-y-6 text-lg bg-white px-7 py-5 mt-5"
+      className="space-y-6 text-lg bg-grey-0 px-7 py-5 mt-5 text-grey-400"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="flex items-center py-3 border-grey-100 gap-5">
@@ -45,14 +45,14 @@ function UpdateSettingsForm() {
           <input
             type="number"
             id="min-nights"
-            className="py-2 px-4 border border-grey-300 rounded-md w-full"
+            className="py-2 px-4 border border-grey-200 rounded-md w-full bg-grey-100"
             {...register("minBookingLength")}
             disabled={isEditing}
           />
         </div>
       </div>
 
-      <div className="flex items-center py-3 border-grey-100 gap-5">
+      <div className="flex items-center py-3 border-grey-100 gap-5 ">
         <label htmlFor="max-nights" className="w-3/12 font-semibold text-xl">
           Maximum nights/booking
         </label>
@@ -60,7 +60,7 @@ function UpdateSettingsForm() {
           <input
             type="number"
             id="max-nights"
-            className="py-2 px-4 border border-grey-300 rounded-md w-full"
+            className="py-2 px-4 border border-grey-300 rounded-md w-full bg-grey-100"
             {...register("maxBookingLength")}
             disabled={isEditing}
           />
@@ -75,7 +75,7 @@ function UpdateSettingsForm() {
           <input
             type="number"
             id="max-guests"
-            className="py-2 px-4 border border-grey-300 rounded-md w-full "
+            className="py-2 px-4 border border-grey-300 rounded-md w-full bg-grey-100"
             {...register("maxGuestPerBooking")}
             disabled={isEditing}
           />
@@ -93,7 +93,7 @@ function UpdateSettingsForm() {
           <input
             type="number"
             id="breakfast-price"
-            className="py-2 px-4 border border-grey-300 rounded-md w-full"
+            className="py-2 px-4 border border-grey-300 rounded-md w-full bg-grey-100"
             {...register("breakFastPrice")}
             disabled={isEditing}
           />

@@ -26,7 +26,7 @@ function LoginForm() {
       <div className="flex flex-col">
         <label
           htmlFor="email"
-          className="mb-2 text-sm font-medium text-gray-700"
+          className="mb-2 text-sm font-medium text-grey-600 "
         >
           Email address
         </label>
@@ -36,13 +36,13 @@ function LoginForm() {
           autoComplete="username"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-4 py-3 border border-grey-300 bg-grey-200 text-grey-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
       <div className="flex flex-col">
         <label
           htmlFor="password"
-          className="mb-2 text-sm font-medium text-gray-700"
+          className="mb-2 text-sm font-medium text-grey-600"
         >
           Password
         </label>
@@ -52,14 +52,14 @@ function LoginForm() {
           autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-4 py-3 border border-grey-300 bg-grey-200 text-grey-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
       <div>
         <button
           type="submit"
           onClick={handleSubmit}
-          className="w-full py-3 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
+          className="w-full py-3 px-4 mt-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
         >
           {logging ? <SpinnerMini /> : "Login"}
         </button>

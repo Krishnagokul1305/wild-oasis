@@ -16,17 +16,17 @@ export default {
         },
         // Grey Colors
         grey: {
-          0: "#fff",
-          50: "#f9fafb",
-          100: "#f3f4f6",
-          200: "#e5e7eb",
-          300: "#d1d5db",
-          400: "#9ca3af",
-          500: "#6b7280",
-          600: "#4b5563",
-          700: "#374151",
-          800: "#1f2937",
-          900: "#111827",
+          0: "var(--grey-0)",
+          50: "var(--grey-50)",
+          100: "var(--grey-100)",
+          200: "var(--grey-200)",
+          300: "var(--grey-300)",
+          400: "var(--grey-400)",
+          500: "var(--grey-500)",
+          600: "var(--grey-600)",
+          700: "var(--grey-700)",
+          800: "var(--grey-800)",
+          900: "var(--grey-900)",
         },
         // Additional Colors
         customBlue: {

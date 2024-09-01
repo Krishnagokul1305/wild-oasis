@@ -6,13 +6,17 @@ import BookingRow from "./BookingRow";
 import { useSearchParams } from "react-router-dom";
 import Pagination from "../../ui/Pagination";
 import Menus from "../../ui/Menus";
+import useUser from "../authentication/useUser";
 
 function BookingTable() {
   const [searchparams] = useSearchParams();
   let currentPage = searchparams.get("page") || 1;
 
+  const { isAuthenticated } = useUser();
+
   const { data, isLoading } = useQuery({
     queryKey: ["bookings", currentPage],
+    enabled: isAuthenticated,
     queryFn: () => getBookings(currentPage),
   });
 

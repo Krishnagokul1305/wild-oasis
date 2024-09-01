@@ -1,6 +1,6 @@
 function Checkbox({ checked, onChange, disabled = false, id, children }) {
   return (
-    <div className="flex gap-4 bg-white px-5 py-6">
+    <div className="flex gap-4 bg-grey-0 px-5 py-6 text-grey-500">
       <input
         type="checkbox"
         id={id}
@@ -8,7 +8,7 @@ function Checkbox({ checked, onChange, disabled = false, id, children }) {
         onChange={onChange}
         disabled={disabled}
         className={`h-6 w-6 outline-offset-2 transform origin-left ${
-          disabled ? "accent-gray-400" : "accent-blue-600"
+          disabled ? "accent-grey-400" : "accent-blue-600"
         }`}
       />
       <label

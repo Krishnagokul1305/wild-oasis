@@ -14,7 +14,6 @@ exports.getAllUsers = catchControllerError(async (req, res, next) => {
 exports.getUser = catchControllerError(async (req, res, next) => {
   const { id } = req.params;
   const user = await userService.getUserById(id);
-  console.log(user);
   res.status(200).json({
     status: "success",
     data: user,
@@ -50,7 +49,6 @@ exports.updatePassword = catchControllerError(async (req, res, next) => {
   const updatedUser = await userService.updateUserPassword({
     user: req.user,
     newPassword: req.body.newPassword,
-    currentPassword: req.body.currentPassword,
     confirmPassword: req.body.newPassword,
   });
 

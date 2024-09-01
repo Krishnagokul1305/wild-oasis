@@ -49,7 +49,7 @@ function CheckinBooking() {
         </button>
       </div>
 
-      <div className="bg-gray-50  rounded-md p-6 flex flex-col gap-3">
+      <div className="bg-grey-100  rounded-md p-6 flex flex-col gap-3">
         <BookingDataBox booking={booking} />
         {booking.status == "unConfirmed" && (
           <div className=" space-y-3">

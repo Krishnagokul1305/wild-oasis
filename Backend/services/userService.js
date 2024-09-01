@@ -57,11 +57,7 @@ exports.updateUserDetails = catchServiceError(async ({ id, updateData }) => {
 });
 
 exports.updateUserPassword = catchServiceError(
-  async ({ user, newPassword, currentPassword, confirmPassword }) => {
-    if (!(await user.isValidPassword(currentPassword, user.password))) {
-      throw new AppError("Invalid current password", 400);
-    }
-
+  async ({ user, newPassword, confirmPassword }) => {
     user.password = newPassword;
     user.confirmPassword = confirmPassword;
 

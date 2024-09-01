@@ -29,7 +29,7 @@ function ToggleBtn({ id }) {
   }
   return (
     <button
-      className="bg-none border-none p-2 rounded-md transform translate-x-3 transition-all duration-200 hover:bg-gray-100 text-gray-700"
+      className="bg-none border-none p-2 rounded-md transform translate-x-3 transition-all duration-200 hover:bg-grey-100 text-grey-700"
       onClick={handleClick}
     >
       <HiEllipsisVertical />

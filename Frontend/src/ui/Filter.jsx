@@ -8,7 +8,7 @@ const Filter = ({ options, activeOption, param }) => {
   }
   const active = searchParam.get(param) || options[0];
   return (
-    <div className="border border-gray-100  shadow-sm rounded-sm p-1 flex gap-1 bg-white">
+    <div className="border border-grey-100  shadow-sm rounded-sm p-1 flex gap-1 bg-grey-0 text-grey-500">
       {options.map((option) => (
         <button
           key={option}

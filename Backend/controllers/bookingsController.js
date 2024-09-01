@@ -14,9 +14,7 @@ exports.getAllBookings = catchControllerError(async (req, res, next) => {
 
 exports.createBookings = catchControllerError(async (req, res, next) => {
   const bookingDetails = { ...req.body };
-  console.log(bookingDetails);
   const newBooking = await bookingsService.createBookings(bookingDetails);
-  console.log(newBooking);
   res.status(201).send({
     status: "success",
     data: newBooking,

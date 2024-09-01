@@ -15,7 +15,7 @@ function TableHead({ children }) {
 function TableBody({ data, render }) {
   // if (data.length == 0) return;
   return (
-    <tbody>
+    <tbody className="bg-grey-0 text-grey-400">
       {data.length == 0 ? <EmptyTable /> : data.map(render)}
     </tbody>
   );

@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import { useState } from "react";
 
 const P = ({ children }) => {
-  return <p className="text-lg ml-2">{children}</p>;
+  return <p className="text-sm ml-2">{children}</p>;
 };
 
 const Buttons = ({ children }) => {
@@ -14,10 +14,10 @@ const Buttons = ({ children }) => {
 
 const PaginationButton = ({ active, children, disabled, onClick }) => {
   const baseClasses =
-    "flex items-center justify-center gap-1 p-1.5 px-3 rounded-sm font-medium text-lg transition-all";
+    "flex items-center justify-center gap-1 p-1 px-3 rounded-md font-medium text-base transition-all";
   const activeClasses = active
     ? "bg-brand-600 text-brand-50"
-    : "bg-gray-50 text-inherit";
+    : "bg-brand-500 text-brand-50";
   const hoverClasses = "hover:bg-brand-600 hover:text-brand-50";
 
   return (
@@ -55,7 +55,7 @@ export const Pagination = ({ count }) => {
   }
 
   return (
-    <div className="w-full flex items-center justify-between py-2 px-5">
+    <div className="w-full flex items-center justify-between py-2 px-5 text-grey-500">
       <P>
         Showing <span>{(currentPage - 1) * RES_PER_PAGE + 1}</span> to{" "}
         <span>

@@ -10,7 +10,7 @@ import { NavLink } from "react-router-dom";
 
 function SideNav() {
   return (
-    <aside className="basis-[20%]  bg-grey-0 p-5 flex flex-col items-center gap-8 shadow-sm">
+    <aside className="basis-[20%] bg-grey-0 p-5 flex flex-col items-center gap-8 shadow-sm text-grey-400">
       <header className="mt-2">
         <Logo />
       </header>
@@ -19,7 +19,11 @@ function SideNav() {
           <li>
             <NavLink
               to="/dashboard"
-              className="bg-grey-50 px-12 py-3 cursor-pointer flex items-center gap-2 hover:bg-grey-100"
+              className={({ isActive }) =>
+                `px-12 py-3 cursor-pointer flex items-center gap-2 hover:bg-grey-100 hover:text-grey-500 ${
+                  isActive ? "bg-grey-100 text-grey-500" : ""
+                }`
+              }
             >
               <HiOutlineHome /> Home
             </NavLink>
@@ -27,7 +31,11 @@ function SideNav() {
           <li>
             <NavLink
               to="bookings"
-              className="bg-grey-50 px-12 py-3 cursor-pointer flex items-center gap-2 hover:bg-grey-100"
+              className={({ isActive }) =>
+                `px-12 py-3 cursor-pointer flex items-center gap-2 hover:bg-grey-100 hover:text-grey-500 ${
+                  isActive ? "bg-grey-100 text-grey-500" : ""
+                }`
+              }
             >
               <HiOutlineCalendarDays /> Bookings
             </NavLink>
@@ -35,15 +43,23 @@ function SideNav() {
           <li>
             <NavLink
               to="cabins"
-              className="bg-grey-50 px-12 py-3 cursor-pointer flex items-center gap-2 hover:bg-grey-100"
+              className={({ isActive }) =>
+                `px-12 py-3 cursor-pointer flex items-center gap-2 hover:bg-grey-100 hover:text-grey-500 ${
+                  isActive ? "bg-grey-100 text-grey-500" : ""
+                }`
+              }
             >
               <HiOutlineHomeModern /> Cabins
             </NavLink>
           </li>
           <li>
             <NavLink
-              to="account"
-              className="bg-grey-50 px-12 py-3 cursor-pointer flex items-center gap-2 hover:bg-grey-100"
+              to="users"
+              className={({ isActive }) =>
+                `px-12 py-3 cursor-pointer flex items-center gap-2 hover:bg-grey-100 hover:text-grey-500 ${
+                  isActive ? "bg-grey-100 text-grey-500" : ""
+                }`
+              }
             >
               <MdPermIdentity /> Users
             </NavLink>
@@ -51,7 +67,11 @@ function SideNav() {
           <li>
             <NavLink
               to="settings"
-              className="bg-grey-50 px-12 py-3 cursor-pointer flex items-center gap-2 hover:bg-grey-100"
+              className={({ isActive }) =>
+                `px-12 py-3 cursor-pointer flex items-center gap-2 hover:bg-grey-100 hover:text-grey-500 ${
+                  isActive ? "bg-grey-100 text-grey-500" : ""
+                }`
+              }
             >
               <HiOutlineCog6Tooth /> Settings
             </NavLink>
