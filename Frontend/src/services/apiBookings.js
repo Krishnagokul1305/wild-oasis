@@ -42,6 +42,30 @@ export const getBooking = async (id) => {
   }
 };
 
+export const getBookingStats = async () => {
+  try {
+    const res = await fetch(`${BOOKINGS_URL}/7Days-bookings`);
+    if (!res.ok) throw new Error("something went wrong");
+    const data = await res.json();
+    console.log(data?.data);
+    return data?.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getRecentStay = async () => {
+  try {
+    const res = await fetch(`${BOOKINGS_URL}/StaysLast7Days`);
+    if (!res.ok) throw new Error("something went wrong");
+    const data = await res.json();
+    console.log(data?.data);
+    return data?.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const checkIn = async ({ id, bookingData }) => {
   try {
     const res = await fetch(`${BOOKINGS_URL}/check-in/${id}`, {

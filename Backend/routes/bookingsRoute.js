@@ -10,6 +10,7 @@ const {
   deleteBooking,
   todayActivities,
   recentBookings,
+  getStaysLast7Days,
 } = require("../controllers/bookingsController");
 
 const bookingsRoute = express.Router();
@@ -20,6 +21,8 @@ bookingsRoute.route("/").get(getAllBookings).post(createBookings);
 bookingsRoute.route("/todayActivities").get(todayActivities);
 
 bookingsRoute.route("/7Days-bookings").get(recentBookings)
+
+bookingsRoute.route("/StaysLast7Days").get(getStaysLast7Days)
 
 bookingsRoute
   .route("/:id")

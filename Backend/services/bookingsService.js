@@ -138,16 +138,56 @@ exports.getTodayActivities = catchServiceError(async () => {
   return todayBookings;
 });
 
-
 exports.getBookingLast7Days = catchServiceError(async () => {
+  const date = new Date();
+  date.setDate(date.getDate() - 150);
+
+  const bookingStats = await bookingsModel.aggregate([
+    {
+      $match: {
+        createdAt: { $gte: date },
+      },
+    },
+    {
+      $group: {
+        _id: {
+          $dateToString: { format: "%Y-%m-%d", date: "$createdAt" },
+        },
+        totalSales: { $sum: "$totalPrice" },
+        extrasSales: { $sum: "$extraPrice" },
+        numBookings: { $sum: 1 },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        date: "$_id",
+        totalSales: 1,
+        extrasSales: 1,
+        numBookings: 1,
+      },
+    },
+    {
+      $sort: { date: 1 },
+    },
+  ]);
+
+  return bookingStats;
+});
+
+exports.getStaysLast7Days = catchServiceError(async () => {
   const date = new Date();
 
   date.setDate(date.getDate() - 7);
 
-  const bookings = await bookingsModel.find({
-    createdAt: { $gte: date },
-  }).select("createdAt totalPrice extraPrice -_id");
-  return bookings;
+  const bookingStats = await bookingsModel.find({
+    checkIn: { $gte: date },
+  }).populate({
+    path:"user",
+    select:"fullName -_id"
+  });
+
+  return bookingStats;
 });
 
 exports.updateBooking = catchServiceError(

@@ -1,46 +1,27 @@
 import SalesChart from "./SalesChart";
-import Stats from "./Stats"
-import DurationChart from "./DurationChart"
+import Stats from "./Stats";
+import DurationChart from "./DurationChart";
+import useRecentBookingStats from "./useRecentBookingStats";
+import useRecentStays from "./useRecentStaysStats";
 
-const fakeBookings = [
-  { id: 1, totalPrice: 300 },
-  { id: 2, totalPrice: 450 },
-  { id: 3, totalPrice: 200 },
-  { id: 4, totalPrice: 600 },
-];
-
-const fakeConfirmedStays = [
-  { id: 1, numNights: 3 },
-  { id: 2, numNights: 5 },
-  { id: 3, numNights: 2 },
-  { id: 4, numNights: 7 },
-];
-
-const fakeNumDays = 30;
-const fakeCabinCount = 10;
-
-// Usage in DashboardLayout
 function DashboardLayout() {
-  const bookings = fakeBookings;
-  const confirmedStays = fakeConfirmedStays;
-  const numDays = fakeNumDays;
-  const cabinCount = fakeCabinCount;
+  const { recentBookingStats, isLoading1 } = useRecentBookingStats();
+
+  const { recentStays, isLoading2 } = useRecentStays();
+
+  const confirmedStays = recentStays;
+  const numDays = 7;
 
   return (
     <div className="grid grid-cols-4 grid-rows-[auto_auto_auto] gap-8 w-full mt-5">
       <div className="col-span-4 grid grid-cols-4 gap-6 w-full">
-        <Stats
-          bookings={bookings}
-          confirmedStays={confirmedStays}
-          numDays={numDays}
-          cabinCount={cabinCount}
-        />
+        <Stats confirmedStays={confirmedStays} numDays={numDays} />
       </div>
       {/* <TodayActivity />*/}
       <DurationChart confirmedStays={confirmedStays} />
-      <SalesChart bookings={bookings} numDays={numDays} /> 
+      <SalesChart bookings={recentBookingStats} numDays={numDays} />
     </div>
   );
 }
 
-export default DashboardLayout
+export default DashboardLayout;

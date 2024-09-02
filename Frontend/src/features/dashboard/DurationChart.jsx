@@ -113,8 +113,8 @@ function prepareData(startData, stays) {
 
 function DurationChart({ confirmedStays }) {
   const isDarkMode=true
-  const startData = isDarkMode ? startDataDark : startDataLight;
-  const data = prepareData(startData, confirmedStays);
+  // const startData = isDarkMode ? startDataDark : startDataLight;
+  // const data = prepareData(startData, confirmedStays);
 
   return (
     <div className="bg-grey-100 border border-grey-200 rounded-md p-6 sm:p-8 col-start-3 col-span-2 text-base h-fit">
