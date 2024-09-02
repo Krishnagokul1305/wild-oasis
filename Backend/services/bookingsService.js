@@ -56,16 +56,20 @@ exports.checkIn = catchServiceError(async ({ bookingId, data }) => {
     throw new AppError("Booking is not eligible for check-in", 400);
   }
 
-  booking.status = "checked-in";
-
   if (!booking.isPaid && !data?.isPaid) {
     throw new AppError("Booking must be paid before checking in", 400);
   }
+
+  booking.status = "checked-in";
+
   if (!booking.isPaid) booking.isPaid = true;
   if (!booking.hasBreakFast || data.hasBreakFast) {
     booking.extraPrice = data.extraPrice;
     booking.totalPrice = data.totalPrice;
   }
+
+  booking.checkIn = new Date(Date.now()).toISOString();
+
   const checkedBooking = await booking.save();
 
   return checkedBooking;
@@ -87,6 +91,7 @@ exports.checkOut = catchServiceError(async (bookingId) => {
   }
 
   booking.status = "checked-out";
+  booking.checkOut = new Date(Date.now()).toISOString();
   const checkedBooking = await booking.save();
 
   return checkedBooking;
@@ -118,7 +123,6 @@ exports.getTodayActivities = catchServiceError(async () => {
   endOfToday.setHours(23, 59, 59, 999);
 
   const todayBookings = await bookingsModel.find({
-    updatedAt: { $gte: startOfToday, $lte: endOfToday }, // Updated today
     $or: [
       {
         status: "checked-in",
@@ -132,6 +136,17 @@ exports.getTodayActivities = catchServiceError(async () => {
   });
 
   return todayBookings;
+});
+
+exports.getBookingLast7Days = catchServiceError(async () => {
+  const date = new Date();
+
+  date.setDate(date.getDate() - 7);
+
+  const bookings = await bookingsModel.find({
+    createdAt: { $gte: date },
+  }).select("createdAt totalPrice extraPrice -_id");
+  return bookings;
 });
 
 exports.updateBooking = catchServiceError(

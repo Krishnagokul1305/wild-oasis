@@ -49,7 +49,7 @@ function CheckinBooking() {
         </button>
       </div>
 
-      <div className="bg-grey-100  rounded-md p-6 flex flex-col gap-3">
+      <div className="bg-grey-50  rounded-md px-5 flex flex-col gap-3">
         <BookingDataBox booking={booking} />
         {booking.status == "unConfirmed" && (
           <div className=" space-y-3">
@@ -88,7 +88,7 @@ function CheckinBooking() {
         )}
       </div>
 
-      <div className="flex space-x-4 justify-end me-5">
+      <div className="flex space-x-4 justify-end me-5 mt-5">
         {booking.status == "unConfirmed" && (
           <button
             className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"

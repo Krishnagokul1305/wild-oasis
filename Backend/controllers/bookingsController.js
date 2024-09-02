@@ -53,10 +53,18 @@ exports.getBooking = catchControllerError(async (req, res, next) => {
 
 exports.todayActivities = catchControllerError(async (req, res, next) => {
   const todayBookings = await bookingsService.getTodayActivities();
-  console.log(todayBookings);
   res.status(200).send({
     status: "success",
     data: todayBookings,
+  });
+});
+
+exports.recentBookings = catchControllerError(async (req, res, next) => {
+  const data = await bookingsService.getBookingLast7Days();
+  res.status(200).send({
+    status: "success",
+    results:data.length,
+    data: data,
   });
 });
 

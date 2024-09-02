@@ -1,23 +1,3 @@
-import styled from "styled-components";
-
-const ChartBox = styled.div`
-  /* Box */
-  background-color: var(--color-grey-0);
-  border: 1px solid var(--color-grey-100);
-  border-radius: var(--border-radius-md);
-
-  padding: 2.4rem 3.2rem;
-  grid-column: 3 / span 2;
-
-  & > *:first-child {
-    margin-bottom: 1.6rem;
-  }
-
-  & .recharts-pie-label-text {
-    font-weight: 600;
-  }
-`;
-
 const startDataLight = [
   {
     duration: "1 night",
@@ -130,3 +110,16 @@ function prepareData(startData, stays) {
 
   return data;
 }
+
+const ChartBox = ({ children }) => {
+  return (
+    <div className="bg-gray-50 border border-gray-100 rounded-md p-6 sm:p-8 col-start-3 col-span-2">
+      <div className="mb-4 first:mb-4">{children}</div>
+      <style>{`
+        .recharts-pie-label-text {
+          font-weight: 600;
+        }
+      `}</style>
+    </div>
+  );
+};

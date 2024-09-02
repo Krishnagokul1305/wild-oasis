@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { getSettings } = require("../services/settingsService");
+const { checkOut } = require("../services/bookingsService");
 
 const bookingsSchema = mongoose.Schema(
   {
@@ -57,6 +58,8 @@ const bookingsSchema = mongoose.Schema(
       ref: "user",
       required: [true, "Booking must be associated with a user"],
     },
+    checkIn:Date,
+    checkOut:Date
   },
   {
     timestamps: true,

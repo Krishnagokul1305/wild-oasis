@@ -4,28 +4,30 @@ import useUpdateUser from "./useUpdateUser";
 
 function UpdateUserDataForm() {
   const {
-    user: { email="", fullName: currentFullName="" },
+    user: { email = "", fullName: currentFullName = "" },
   } = useUser();
 
   const [fullName, setFullName] = useState(currentFullName);
   const [avatar, setAvatar] = useState(null);
 
   const { updateUser, isUpdating } = useUpdateUser();
-
+  
   function handleSubmit(e) {
     e.preventDefault();
     // Handle form submission
     const formData = new FormData();
     formData.append("fullName", fullName);
     if (avatar) {
-      console.log(avatar, email);
       formData.append("avatar", avatar);
     }
     updateUser(formData);
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 bg-grey-0 px-5 py-8 text-grey-400">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-6 bg-grey-0 px-5 py-8 text-grey-400"
+    >
       <div className="flex items-center">
         <label
           htmlFor="email"
@@ -72,7 +74,7 @@ function UpdateUserDataForm() {
           accept="image/*"
           disabled={isUpdating}
           onChange={(e) => setAvatar(e.target.files[0])}
-          className="p-2 outline-none  basis-[40%]"
+          className="py-3 outline-none basis-[40%] rounded-sm file:font-inherit file:font-medium file:px-3 file:py-2 file:mr-3  file:rounded-lg file:border-none file:text-white file:bg-brand-700 file:cursor-pointer file:transition-colors file:duration-200 hover:file:bg-brand-800"
         />
       </div>
 

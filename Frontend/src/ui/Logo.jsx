@@ -1,9 +1,9 @@
-import { logoDark } from "../assets/img";
+import { logoLight } from "../assets/img";
 
 function Logo() {
   return (
     <div>
-      <img src={logoDark} alt="Logo" className="h-[90px]"/>
+      <img src={logoLight} alt="Logo" className="h-[90px]" />
     </div>
   );
 }

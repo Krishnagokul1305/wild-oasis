@@ -4,8 +4,12 @@ import useLogout from "./useLogout";
 function Logout() {
   const { logout, loggingOut } = useLogout();
   return (
-    <button onClick={logout} disabled={loggingOut} className="mt-2">
-      <HiArrowRightOnRectangle className="h-6 mt-0.5" />
+    <button
+      onClick={logout}
+      disabled={loggingOut}
+      className=" px-2 py-2  hover:bg-grey-100 rounded-full"
+    >
+      <HiArrowRightOnRectangle className="h-5 mt-0.5" />
     </button>
   );
 }
