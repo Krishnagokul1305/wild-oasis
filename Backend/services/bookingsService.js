@@ -138,6 +138,7 @@ exports.getTodayActivities = catchServiceError(async () => {
   return todayBookings;
 });
 
+
 exports.getBookingLast7Days = catchServiceError(async () => {
   const date = new Date();
 

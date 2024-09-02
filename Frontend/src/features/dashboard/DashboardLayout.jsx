@@ -1,4 +1,6 @@
+import SalesChart from "./SalesChart";
 import Stats from "./Stats"
+import DurationChart from "./DurationChart"
 
 const fakeBookings = [
   { id: 1, totalPrice: 300 },
@@ -25,8 +27,8 @@ function DashboardLayout() {
   const cabinCount = fakeCabinCount;
 
   return (
-    <div className="grid grid-cols-4 grid-rows-[auto_34rem_auto] gap-6">
-      <div className="col-span-4 grid grid-cols-4 gap-6">
+    <div className="grid grid-cols-4 grid-rows-[auto_auto_auto] gap-8 w-full mt-5">
+      <div className="col-span-4 grid grid-cols-4 gap-6 w-full">
         <Stats
           bookings={bookings}
           confirmedStays={confirmedStays}
@@ -34,9 +36,9 @@ function DashboardLayout() {
           cabinCount={cabinCount}
         />
       </div>
-      {/* <TodayActivity />
+      {/* <TodayActivity />*/}
       <DurationChart confirmedStays={confirmedStays} />
-      <SalesChart bookings={bookings} numDays={numDays} /> */}
+      <SalesChart bookings={bookings} numDays={numDays} /> 
     </div>
   );
 }

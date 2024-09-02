@@ -1,3 +1,5 @@
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+
 const startDataLight = [
   {
     duration: "1 night",
@@ -85,8 +87,6 @@ const startDataDark = [
 ];
 
 function prepareData(startData, stays) {
-  // A bit ugly code, but sometimes this is what it takes when working with real data 😅
-
   function incArrayValue(arr, field) {
     return arr.map((obj) =>
       obj.duration === field ? { ...obj, value: obj.value + 1 } : obj
@@ -111,10 +111,47 @@ function prepareData(startData, stays) {
   return data;
 }
 
-const ChartBox = ({ children }) => {
+function DurationChart({ confirmedStays }) {
+  const isDarkMode=true
+  const startData = isDarkMode ? startDataDark : startDataLight;
+  const data = prepareData(startData, confirmedStays);
+
   return (
-    <div className="bg-gray-50 border border-gray-100 rounded-md p-6 sm:p-8 col-start-3 col-span-2">
-      <div className="mb-4 first:mb-4">{children}</div>
+    <div className="bg-grey-100 border border-grey-200 rounded-md p-6 sm:p-8 col-start-3 col-span-2 text-base h-fit">
+      <h2 className="text-xl font-semibold mb-4 text-grey-500">Stay duration summary</h2>
+      <div className="w-full h-60">
+        <ResponsiveContainer>
+          <PieChart>
+            <Pie
+              data={data}
+              nameKey="duration"
+              dataKey="value"
+              innerRadius={85}
+              outerRadius={110}
+              cx="40%"
+              cy="50%"
+              paddingAngle={3}
+            >
+              {data.map((entry) => (
+                <Cell
+                  key={entry.duration}
+                  fill={entry.color}
+                  stroke={entry.color}
+                />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend
+              verticalAlign="middle"
+              align="right"
+              width="30%"
+              layout="vertical"
+              iconSize={15}
+              iconType="circle"
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
       <style>{`
         .recharts-pie-label-text {
           font-weight: 600;
@@ -122,4 +159,6 @@ const ChartBox = ({ children }) => {
       `}</style>
     </div>
   );
-};
+}
+
+export default DurationChart;

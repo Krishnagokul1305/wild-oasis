@@ -23,7 +23,7 @@ function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
     (numDays * cabinCount);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <>
       <Stat
         title="Bookings"
         color="blue"
@@ -38,7 +38,7 @@ function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
       />
       <Stat
         title="Check-ins"
-        color="indigo"
+        color="blue"
         icon={<HiOutlineCalendarDays />}
         value={checkins}
       />
@@ -48,7 +48,7 @@ function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
         icon={<HiOutlineChartBar />}
         value={Math.round(occupation * 100) + "%"}
       />
-    </div>
+    </>
   );
 }
 
