@@ -7,20 +7,12 @@ import {
 import Stat from "./Stat";
 import { formatCurrency } from "../../utils/helpers";
 
-function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
-  // 1. Number of Bookings
-  // const numBookings = bookings?.length||0;
-
-  // 2. Total Sales
-  // const sales = bookings?.reduce((acc, cur) => acc + cur.totalPrice, 0)||0;
-
-  // 3. Number of Check-ins
-  // const checkins = confirmedStays?.length||0;
-
-  // 4. Occupancy Rate
-  // const occupation =
-  //   confirmedStays.reduce((acc, cur) => acc + cur.numNights, 0) /
-  //   (numDays * cabinCount);
+function Stats({ stats,confirmedStays }) {
+ 
+  const numBookings = stats?.reduce((acc, cur) => acc + cur.numBookings, 0)||0;
+  const sales = stats?.reduce((acc, cur) => acc + cur.totalSales, 0)||0;
+  const extraSales = stats?.reduce((acc, cur) => acc + cur.extrasSales, 0)||0;
+  const checkins = confirmedStays?.length||0;
 
   return (
     <>
@@ -28,25 +20,25 @@ function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
         title="Bookings"
         color="blue"
         icon={<HiOutlineBriefcase />}
-        // value={numBookings}
+        value={numBookings}
       />
       <Stat
         title="Sales"
         color="green"
         icon={<HiOutlineBanknotes />}
-        // value={formatCurrency(sales)}
+        value={formatCurrency(sales)}
       />
       <Stat
         title="Check-ins"
         color="blue"
         icon={<HiOutlineCalendarDays />}
-        // value={checkins}
+        value={checkins}
       />
       <Stat
-        title="Occupancy Rate"
+        title="ExtraSales"
         color="yellow"
         icon={<HiOutlineChartBar />}
-        // value={Math.round(occupation * 100) + "%"}
+        value={formatCurrency(extraSales)}
       />
     </>
   );

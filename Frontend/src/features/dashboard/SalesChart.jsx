@@ -8,8 +8,7 @@ import {
   YAxis,
 } from "recharts";
 
-function SalesChart({bookings}) {
-
+function SalesChart({ bookings }) {
   const isDarkMode = true;
   const colors = isDarkMode
     ? {
@@ -26,7 +25,10 @@ function SalesChart({bookings}) {
       };
 
   return (
-    <div className="h-fit text-base bg-grey-100 col-span-4 py-10 flex items-center mx-auto w-full rounded-md border border-grey-200">
+    <div className="h-fit text-base bg-grey-100 col-span-4 py-10 flex items-center mx-auto w-full rounded-md border border-grey-200 flex-col">
+      <h1 className="text-xl font-semibold mb-4 text-grey-500">
+        Sales Summary
+      </h1>
       <div className="bg-grey-100 rounded-lg w-full">
         <AreaChart
           width={1000}
