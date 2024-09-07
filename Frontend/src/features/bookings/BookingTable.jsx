@@ -20,7 +20,7 @@ function BookingTable() {
     queryFn: () => getBookings(currentPage),
   });
 
-  const bookings = data?.data || [];
+  const bookings = data?.data||[];
 
   const results = data?.results || 0;
 

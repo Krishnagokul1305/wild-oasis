@@ -7,5 +7,4 @@ const port = process.env.PORT || 3000;
 
 app.listen(port, async () => {
   await connectDb();
-  console.log("listening");
 });

@@ -14,7 +14,6 @@ exports.decodeToken = (token) => {
 
     return jwtObj;
   } catch (error) {
-    console.log(error);
     if (error.name == "TokenExpiredError") {
       throw new AppError(
         "your session time have expired Please login again",
