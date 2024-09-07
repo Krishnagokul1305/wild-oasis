@@ -10,15 +10,13 @@ function useLogin() {
   const { mutate, isPending: logging } = useMutation({
     mutationFn: (data) => loginApi(data),
     onSuccess: (data) => {
-      console.log(data);
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.data));
       queryClient.setQueryData(["user"],data?.user)
       toast.success("logged in successfully");
       navigate("/dashboard")
     },
-    onError: (err) => {
-      console.log(err);
+    onError: () => {
       toast.error("Incorrect email or password");
     },
   });

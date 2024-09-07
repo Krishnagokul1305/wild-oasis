@@ -122,18 +122,28 @@ exports.getTodayActivities = catchServiceError(async () => {
   const endOfToday = new Date();
   endOfToday.setHours(23, 59, 59, 999);
 
-  const todayBookings = await bookingsModel.find({
-    $or: [
-      {
-        status: "checked-in",
-        startDate: { $gte: startOfToday, $lte: endOfToday },
-      },
-      {
-        status: "checked-out",
-        endDate: { $gte: startOfToday, $lte: endOfToday },
-      },
-    ],
-  });
+  const todayBookings = await bookingsModel
+    .find({
+      $or: [
+        {
+          status: "checked-in",
+          startDate: { $gte: startOfToday, $lte: endOfToday },
+        },
+        {
+          status: "checked-out",
+          endDate: { $gte: startOfToday, $lte: endOfToday },
+        },
+      ],
+    })
+    .limit(4)
+    .populate({
+      path: "cabin",
+      select: "name",
+    })
+    .populate({
+      path: "user",
+      select: "fullName",
+    });
 
   return todayBookings;
 });
@@ -180,12 +190,14 @@ exports.getStaysLast7Days = catchServiceError(async () => {
 
   date.setDate(date.getDate() - 7);
 
-  const bookingStats = await bookingsModel.find({
-    checkIn: { $gte: date },
-  }).populate({
-    path:"user",
-    select:"fullName -_id"
-  });
+  const bookingStats = await bookingsModel
+    .find({
+      checkIn: { $gte: date },
+    })
+    .populate({
+      path: "user",
+      select: "fullName -_id",
+    });
 
   return bookingStats;
 });

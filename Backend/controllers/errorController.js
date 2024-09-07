@@ -7,6 +7,7 @@ function regularError(err, res) {
 }
 
 module.exports = (err, req, res, next) => {
+  console.log(err)
   if (err.message?.includes("E11000")) return DuplicatedError(err, res);
   regularError(err, res);
 };

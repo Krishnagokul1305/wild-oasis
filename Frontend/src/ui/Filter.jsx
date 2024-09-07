@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 
-const Filter = ({ options, activeOption, param }) => {
+const Filter = ({ options,  param }) => {
   const [searchParam, setSearchParam] = useSearchParams();
 
   function handleClick(opt) {

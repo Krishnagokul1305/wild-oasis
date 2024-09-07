@@ -6,7 +6,6 @@ function useRecentBookingStats() {
     queryKey: ["recentBookings"],
     queryFn: getBookingStats,
   });
-console.log(recentBookingStats)
   return { recentBookingStats, isLoading1 };
 }
 

@@ -12,7 +12,6 @@ export const getSettings = async () => {
 
 export const updateSettings = async (settings) => {
   try {
-    console.log(settings);
     const res = await fetch(SETTINGS_Url, {
       method: "POST",
       body: JSON.stringify(settings),
@@ -26,7 +25,6 @@ export const updateSettings = async (settings) => {
     }
 
     const { data } = await res.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.error("Error updating:", error);

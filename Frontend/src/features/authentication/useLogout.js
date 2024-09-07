@@ -12,8 +12,7 @@ function useLogout() {
       toast.success("logged out successfully");
       navigate("/login");
     },
-    onError: (err) => {
-      console.log(err);
+    onError: () => {
       toast.error("something went wrong");
     },
   });

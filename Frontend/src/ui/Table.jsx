@@ -16,14 +16,14 @@ function TableBody({ data, render }) {
   // if (data.length == 0) return;
   return (
     <tbody className="bg-grey-0 text-grey-400">
-      {data.length == 0 ? <EmptyTable /> : data.map(render)}
+      {data?.length == 0 ? <EmptyTable /> : data?.map(render)}
     </tbody>
   );
 }
 
 function EmptyTable({ colSpan }) {
   return (
-    <tr>
+    <tr >
       <td
         className="flex items-center justify-center w-full py-5 text-lg"
         colSpan={colSpan}

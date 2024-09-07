@@ -8,4 +8,4 @@ function DashboardBox({ children, className = "" }) {
   );
 }
 
-export default DashboardBox
+export default DashboardBox;

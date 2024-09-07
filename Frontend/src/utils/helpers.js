@@ -27,3 +27,10 @@ export const formatCurrency = (value) =>
   new Intl.NumberFormat("en", { style: "currency", currency: "USD" }).format(
     value
   );
+
+ export function convertStringToTime(dateString) {
+    const date = new Date(dateString);
+    // Get the time in the format "HH:MM:SS"
+    const time = date.toLocaleTimeString('en-US', { hour12: false });
+    return time;
+  }

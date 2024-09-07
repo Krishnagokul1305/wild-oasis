@@ -98,7 +98,6 @@ export const updateUser = async (userData) => {
     if (!res.ok) throw new Error("something went wrong");
 
     const data = await res.json();
-    console.log(data);
     return data;
   } catch (error) {
     throw new Error(error.message);

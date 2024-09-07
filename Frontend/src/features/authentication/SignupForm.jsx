@@ -16,8 +16,8 @@ function SignupForm() {
     createUser({ ...data, role: "employee" });
   }
 
-  function onError(err) {
-    console.log(err);
+  function onError() {
+    
   }
 
   return (

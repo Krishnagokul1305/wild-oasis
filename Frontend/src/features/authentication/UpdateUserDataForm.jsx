@@ -14,7 +14,6 @@ function UpdateUserDataForm() {
   
   function handleSubmit(e) {
     e.preventDefault();
-    // Handle form submission
     const formData = new FormData();
     formData.append("fullName", fullName);
     if (avatar) {

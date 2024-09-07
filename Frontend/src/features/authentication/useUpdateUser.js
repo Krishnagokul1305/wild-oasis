@@ -19,12 +19,10 @@ function useUpdateUser() {
       if (data?.token) {
         localStorage.setItem("token", data.token);
       }
-      console.log(data);
       localStorage.setItem("user", JSON.stringify(data.data));
       queryClient.invalidateQueries(["user"]);
     },
     onError: (err) => {
-      console.log(err);
       toast.error(err.message);
     },
   });

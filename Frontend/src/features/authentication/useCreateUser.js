@@ -10,7 +10,6 @@ function useCreateUser(onFinish) {
       onFinish()
     },
     onError: (err) => {
-      console.log(err);
       toast.error(err.message);
     },
   });

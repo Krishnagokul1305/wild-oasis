@@ -11,7 +11,7 @@ function useEditCabin() {
     },
     onSuccess: () => {
       toast.success("Cabin updated successfully");
-      queryClient.invalidateQueries(["cabin"]); // Invalidate the cabin query
+      queryClient.invalidateQueries(["cabin"]); 
     },
     onError: (err) => {
       toast.error(err.message);

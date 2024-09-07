@@ -9,7 +9,6 @@ function Login() {
           <img src={logoDark} alt="" className="object-contain"/>
         </div>
         <div>
-          {/* <h1 className="text-lg font-semibold text-center">Login in to your account</h1> */}
           <LoginForm />
         </div>
       </div>

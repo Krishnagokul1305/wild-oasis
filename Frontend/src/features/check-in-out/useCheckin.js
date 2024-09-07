@@ -7,11 +7,10 @@ function useCheckIn() {
 
   const { mutate: checkInFn, isLoading: isChecking } = useMutation({
     mutationFn: ({ id, bookingData }) => {
-      console.log(id, bookingData);
+  
       checkIn({ id, bookingData });
     },
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
       toast.success("Booking checked in successfully");
       queryClient.invalidateQueries(["bookings"]);
       queryClient.invalidateQueries(["booking"]);

@@ -10,7 +10,6 @@ import DataItem from "../../ui/DataItem";
 
 import { formatDistanceFromNow, formatCurrency } from "../../utils/helpers";
 
-// A purely presentational component
 function BookingDataBox({ booking }) {
   const {
     createdAt,

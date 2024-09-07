@@ -18,13 +18,14 @@ function CheckinBooking() {
   let isLoading = settingLoading || bookingLoading || isChecking;
 
   let [confirmPayment, setConfirmPayment] = useState(
-    booking.isPaid ? true : false
+    booking?.isPaid ? true : false
   );
   let [addBreakFast, setAddBreakFast] = useState(
-    booking.hasBreakFast ? true : false
+    booking?.hasBreakFast ? true : false
   );
+
   const moveBack = useMoveBack();
-  console.log(booking);
+
   function handleCheckin() {
     const newData = {
       isPaid: confirmPayment,
@@ -32,7 +33,7 @@ function CheckinBooking() {
       extraPrice: settings.breakFastPrice,
       totalPrice: booking.totalPrice + settings.breakFastPrice,
     };
-    checkInFn({ id: booking._id, bookingData: newData });
+    checkInFn({ id: booking?._id, bookingData: newData });
   }
 
   if (isLoading) return <Spinner />;

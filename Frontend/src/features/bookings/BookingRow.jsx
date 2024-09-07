@@ -15,7 +15,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import useCheckOut from "../check-in-out/useCheckOut";
 import useDeleteBooking from "./useDeleteBooking";
-// import useDeleteBooking from "./useDeleteBooking";
 
 function BookingRow({
   booking: {

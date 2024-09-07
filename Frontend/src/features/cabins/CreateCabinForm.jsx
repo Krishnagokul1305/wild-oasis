@@ -35,8 +35,8 @@ function CreateCabinForm({ cabinToEdit = {}, onClose }) {
     reset();
   }
 
-  function onError(err) {
-    console.log(err);
+  function onError() {
+ 
   }
 
   return (
