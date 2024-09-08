@@ -18,7 +18,7 @@ export const login = async (userData) => {
     const data = await res.json();
     return data;
   } catch (error) {
-    console.log(error);
+    throw new Error(error.message);
   }
 };
 
@@ -43,7 +43,7 @@ export const getCurrentUser = async () => {
     const data = await res.json();
     return { user: data.data, token: token };
   } catch (error) {
-    console.log(error);
+    throw new Error(error.message);
   }
 };
 
@@ -130,6 +130,6 @@ export const logout = async () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
   } catch (error) {
-    console.log(error);
+    throw new Error(error.message);
   }
 };

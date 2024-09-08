@@ -26,8 +26,7 @@ export const createCabin = async (cabinData) => {
     const { data } = await res.json();
     return data;
   } catch (error) {
-    console.error("Error creating cabin:", error);
-    throw error;
+    throw new Error(error.message);
   }
 };
 
@@ -47,7 +46,7 @@ export const updateCabin = async ({ id, data: cabinData }) => {
     return data;
   } catch (error) {
     console.error("Error creating cabin:", error);
-    throw error;
+    throw new Error(error.message);
   }
 };
 

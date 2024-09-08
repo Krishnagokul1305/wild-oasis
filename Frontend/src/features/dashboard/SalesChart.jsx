@@ -8,7 +8,7 @@ import {
   YAxis,
 } from "recharts";
 
-function SalesChart({ bookings }) {
+function SalesChart({ bookings=[] }) {
   const isDarkMode = true;
   const colors = isDarkMode
     ? {

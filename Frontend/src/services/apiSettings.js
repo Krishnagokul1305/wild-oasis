@@ -27,7 +27,6 @@ export const updateSettings = async (settings) => {
     const { data } = await res.json();
     return data;
   } catch (error) {
-    console.error("Error updating:", error);
-    throw error;
+    throw new Error(error.message);
   }
 };

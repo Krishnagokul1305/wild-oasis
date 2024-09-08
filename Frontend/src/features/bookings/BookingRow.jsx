@@ -10,11 +10,9 @@ import { HiEye } from "react-icons/hi";
 import {
   HiArrowDownOnSquare,
   HiArrowUpOnSquare,
-  HiTrash,
 } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import useCheckOut from "../check-in-out/useCheckOut";
-import useDeleteBooking from "./useDeleteBooking";
 
 function BookingRow({
   booking: {
@@ -41,7 +39,6 @@ function BookingRow({
 
   const { checkOutFn } = useCheckOut(currentPage, bookingId);
 
-  const { deleteFn } = useDeleteBooking();
 
   return (
     <tr className="border-b border-grey-100 text-base px-3">
@@ -108,15 +105,6 @@ function BookingRow({
                   </button>
                 </Menus.MenuButton>
               )}
-              <Menus.MenuButton>
-                <button
-                  className=" px-3 py-2 rounded-md flex items-center gap-2"
-                  onClick={() => deleteFn(bookingId)}
-                >
-                  <HiTrash />
-                  Delete
-                </button>
-              </Menus.MenuButton>
             </Menus.MenuList>
             <Modal.Window></Modal.Window>
             <Modal.Window>

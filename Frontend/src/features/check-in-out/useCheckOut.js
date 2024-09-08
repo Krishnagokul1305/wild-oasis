@@ -11,13 +11,8 @@ function useCheckOut(currentPage, bookingId) {
     },
     onSuccess: () => {
       toast.success("Booking checked out successfully");
-      if (currentPage) {
-        queryClient.invalidateQueries(["bookings", currentPage]);
-      }
-
-      if (bookingId) {
-        queryClient.invalidateQueries(["booking", bookingId]);
-      }
+      queryClient.invalidateQueries(["bookings", currentPage]);
+      queryClient.invalidateQueries(["booking", bookingId]);
     },
     onError: (err) => {
       toast.error(err.message);

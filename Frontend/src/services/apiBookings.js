@@ -18,8 +18,7 @@ export const getBookings = async (currentPage) => {
     const { data, results } = await res.json();
     return { data, results };
   } catch (error) {
-    console.error("Error fetching bookings:", error);
-    return { data: [], results: 0 }; // Return a default response
+    throw new Error(error.message);
   }
 };
 
@@ -37,8 +36,7 @@ export const getBooking = async (id) => {
     const { data } = await res.json();
     return data;
   } catch (error) {
-    console.error(`Error fetching booking with ID ${id}:`, error);
-    return null; 
+    throw new Error(error.message);
   }
 };
 
@@ -49,7 +47,7 @@ export const getBookingStats = async () => {
     const data = await res.json();
     return data?.data;
   } catch (error) {
-    console.log(error);
+    throw new Error(error.message);
   }
 };
 
@@ -62,7 +60,7 @@ export const getRecentStay = async () => {
     const data = await res.json();
     return data?.data;
   } catch (error) {
-    console.log(error);
+    throw new Error(error.message);
   }
 };
 
@@ -73,7 +71,7 @@ export const getTodayActivities = async () => {
     const data = await res.json();
     return data?.data;
   } catch (error) {
-    console.log(error);
+    throw new Error(error.message);
   }
 };
 
@@ -93,7 +91,7 @@ export const checkIn = async ({ id, bookingData }) => {
 
     await res.json();
   } catch (error) {
-    console.log(error);
+    throw new Error(error.message);
   }
 };
 
@@ -112,7 +110,7 @@ export const checkOut = async (id) => {
 
     await res.json();
   } catch (error) {
-    console.log(error);
+    throw new Error(error.message);
   }
 };
 
@@ -131,6 +129,6 @@ export const deleteBooking = async (id) => {
 
     await res.json();
   } catch (error) {
-    console.log(error);
+    throw new Error(error.message);
   }
 };
