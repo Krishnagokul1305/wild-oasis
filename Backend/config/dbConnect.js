@@ -8,7 +8,6 @@ async function connectDb() {
     try {
       await mongoose.connect(
         `mongodb+srv://${process.env.DB_EMAIL}:${process.env.DB_PASSWORD}@app.m1lmn2d.mongodb.net/wild-oasis?retryWrites=true&w=majority&appName=app`,
-        { useNewUrlParser: true, useUnifiedTopology: true }
       );
       console.log("Database connection successful");
       break;

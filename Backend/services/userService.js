@@ -26,18 +26,18 @@ exports.createUsers = catchServiceError(async (userData) => {
   if (!fullName) {
     throw new AppError("Full name must be filled", 400);
   }
-  if (!password) {
-    throw new AppError("Password must be filled", 400);
-  }
+  // if (!password) {
+  //   throw new AppError("Password must be filled", 400);
+  // }
   if (!email) {
     throw new AppError("Email must be filled", 400);
   }
   if (!validator.isEmail(email)) {
     throw new AppError("Invalid email format", 400);
   }
-  if (!confirmPassword) {
-    throw new AppError("Confirm password must be filled", 400);
-  }
+  // if (!confirmPassword) {
+  //   throw new AppError("Confirm password must be filled", 400);
+  // }
 
   const newUser = await userModel.create(userData);
   return newUser;

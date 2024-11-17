@@ -21,13 +21,13 @@ exports.getUser = catchControllerError(async (req, res, next) => {
 });
 
 exports.createNewUser = catchControllerError(async (req, res, next) => {
-  const { _id, fullName, email, createdAt } = await userService.createUsers(
+  const { _id, fullName, email, createdAt ,nationalId,country} = await userService.createUsers(
     req.body
   );
 
   res.status(201).json({
     status: "success",
-    data: { _id, fullName, email, createdAt },
+    data: { _id, fullName, email, createdAt,nationalId,country },
   });
 });
 

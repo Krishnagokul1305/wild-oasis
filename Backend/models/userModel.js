@@ -2,77 +2,93 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
 const userSchema = mongoose.Schema(
-  {
-    fullName: {
-      type: String,
-      required: [true, "user must have fullName"],
-    },
-    email: {
-      type: String,
-      required: [true, "user must have email"],
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: [true, "user must have password"],
-      select: false,
-    },
-    confirmPassword: {
-      type: String,
-      required: [true, "user must have confirm password"],
-      validate: {
-        validator: function (val) {
-          return this.password == val;
+    {
+        fullName: {
+            type: String,
+            required: [true, "User must have a full name"],
         },
-        message: "passwords does not match",
-      },
+        email: {
+            type: String,
+            required: [true, "User must have an email"],
+            unique: true,
+        },
+        password: {
+            type: String,
+            select: false,
+            validate: {
+                validator: function (val) {
+                    // Ensure password is present only for employees
+                    return this.role === "employee" ? !!val : true;
+                },
+                message: "Password is required for employees",
+            },
+        },
+        nationalId: {
+            type: String,
+        },
+        country: {
+            type: String,
+        },
+        confirmPassword: {
+            type: String,
+            validate: {
+                validator: function (val) {
+                    // Validate confirmPassword only for employees
+                    return this.role === "employee" ? this.password === val : true;
+                },
+                message: "Passwords do not match",
+            },
+        },
+        role: {
+            type: String,
+            enum: ["user", "employee"],
+            default: "user",
+        },
+        avatar: String,
+        passwordChangedAt: Date,
+        passwordResetToken: String,
+        passwordExpireTime: Date,
     },
-    role: {
-      type: String,
-      enum: ["user", "employee"],
-      default: "user",
-    },
-    avatar: String,
-    passwordChangedAt: Date,
-
-    // these two fields are usefull for forgot password service
-    passwordResetToken: String,
-    passwordExpireTime: Date,
-  },
-  {
-    timestamps: true,
-  }
+    {
+        timestamps: true,
+    }
 );
 
-// pre save middleware to encrypt the password
+// Pre-save middleware to encrypt the password (only for employees)
 userSchema.pre("save", async function (next) {
-  // If the password hasn't been modified, proceed to the next middleware
-  if (!this.isModified("password")) return next();
+    // Skip middleware if the user is not an employee
+    if (this.role !== "employee") {
+        this.password = undefined;
+        this.confirmPassword = undefined;
+        return next();
+    }
 
-  // Hash the password if it's a new document or the password has been modified
-  this.password = await bcrypt.hash(this.password, 12);
+    // If the password hasn't been modified, proceed to the next middleware
+    if (!this.isModified("password")) return next();
 
-  // Set confirmPassword to undefined to not store it in the database
-  this.confirmPassword = undefined;
+    // Hash the password
+    this.password = await bcrypt.hash(this.password, 12);
 
-  // If the document is not new and the password has been modified, set passwordChangedAt
-  if (!this.isNew) {
-    this.passwordChangedAt = Date.now() - 1000;
-  }
+    // Set confirmPassword to undefined to not store it in the database
+    this.confirmPassword = undefined;
 
-  next();
+    // If the document is not new and the password has been modified, set passwordChangedAt
+    if (!this.isNew) {
+        this.passwordChangedAt = Date.now() - 1000;
+    }
+
+    next();
 });
 
-// method to compare the user input password and the user db password
-// available on all the documents of users
+// Method to compare the user input password and the user db password
 userSchema.methods.isValidPassword = async function (inpPassword, dbPassword) {
-  return await bcrypt.compare(inpPassword, dbPassword);
+    return await bcrypt.compare(inpPassword, dbPassword);
 };
 
-// method to check if the user changed password after the token issued
+// Method to check if the user changed the password after the token was issued
 userSchema.methods.hasChangedPassword = function (tokenInitiatedTime) {
-  if (!this.passwordChangedAt) return false;
-  return new Date(this.passwordChangedAt).getTime() > tokenInitiatedTime * 1000;
+    if (!this.passwordChangedAt) return false;
+    return new Date(this.passwordChangedAt).getTime() > tokenInitiatedTime * 1000;
 };
 
 const userModel = mongoose.model("user", userSchema);
