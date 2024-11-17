@@ -10,6 +10,9 @@ const {getUserByEmail} = require("../controllers/userController");
 const userRoute = express.Router();
 
 userRoute.route("/email/:email").get(getUserByEmail)
+userRoute
+    .route("/")
+    .post(userController.createNewUser);
 // route for only logged in users
 userRoute.use(isAuthenticated);
 userRoute
@@ -26,6 +29,6 @@ userRoute.route("/updatePassword").patch(userController.updatePassword);
 userRoute
   .route("/")
   .get(userController.getAllUsers)
-  .post(userController.createNewUser);
+
 userRoute.route("/:id").get(userController.getUser);
 module.exports = userRoute;
