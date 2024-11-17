@@ -11,6 +11,14 @@ exports.getAllUsers = catchControllerError(async (req, res, next) => {
   });
 });
 
+exports.getUserByEmail=catchControllerError(async (req, res, next) => {
+  const user=await userService.getUserByEmail({email:req.params.email});
+  res.status(200).json({
+    status: "success",
+    results: user,
+  })
+})
+
 exports.getUser = catchControllerError(async (req, res, next) => {
   const { id } = req.params;
   const user = await userService.getUserById(id);

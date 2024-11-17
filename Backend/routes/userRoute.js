@@ -5,9 +5,11 @@ const {
   isAuthorized,
 } = require("../middlewares/authentication");
 const { uploads, resize } = require("../middlewares/imgUpload");
+const {getUserByEmail} = require("../controllers/userController");
 
 const userRoute = express.Router();
 
+userRoute.route("/email/:email").get(getUserByEmail)
 // route for only logged in users
 userRoute.use(isAuthenticated);
 userRoute

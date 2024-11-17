@@ -20,6 +20,15 @@ exports.getAllUsers = catchServiceError(async (queryObj) => {
   return users;
 });
 
+exports.getUserByEmail = catchServiceError(async (queryObj) => {
+  const email=queryObj.email;
+  const user=await userModel.find({email})
+  if(!user) {
+    throw new AppError("No cabin found with the provided email", 404);
+  }
+  return user;
+})
+
 exports.createUsers = catchServiceError(async (userData) => {
   const { fullName, password, email, confirmPassword } = userData;
 
