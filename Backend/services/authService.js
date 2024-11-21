@@ -33,16 +33,16 @@ exports.login = catchServiceError(async function (userData) {
   if (!email) {
     throw new AppError("Email must be filled", 400);
   }
-  if (!password) {
-    throw new AppError("Password must be filled", 400);
-  }
+  // if (!password) {
+  //   throw new AppError("Password must be filled", 400);
+  // }
 
-  const user = await userModel.findOne({ email }).select("+password");
+  const user = await userModel.findOne({ email });
 
   // Check if the user exists and the password matches the one in the database
-  if (!user || !(await user.isValidPassword(password, user.password))) {
-    throw new AppError("Invalid email or password", 401);
-  }
+  // if (!user || !(await user.isValidPassword(password, user.password))) {
+  //   throw new AppError("Invalid email or password", 401);
+  // }
 
   return user;
 });
