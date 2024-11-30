@@ -24,7 +24,7 @@ exports.getAllBookings = catchServiceError(async (queryObj) => {
     })
     .populate({
       path: "cabin",
-      select: "name -_id",
+      select: "name -_id image",
     });
 
   const totalBookings = await bookingsModel.countDocuments();
