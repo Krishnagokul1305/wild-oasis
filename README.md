@@ -7,6 +7,7 @@ A responsive and modern admin panel for managing cabin bookings, built using the
 - **Booking Overview**: Monitor and manage all cabin bookings.
 - **User Authentication**: Secure login and access control.
 - **Responsive UI**: Optimized for all screen sizes using Tailwind CSS.
+- **React Query**:API management and efficient data fetching
 
 ## 🛠️ Tech Stack
 - **Frontend**: Next.js, Tailwind CSS
